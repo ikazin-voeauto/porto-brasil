@@ -76,10 +76,30 @@ const App: React.FC = () => {
         return <CellsGrid cells={cells} onCellClick={handleCellClick} />;
       case 'OPERATOR':
         return <MobileCounter
-          cell={cells[0]}
-          onIncrement={() => { }}
-          onReportDefect={() => { }}
-          onToggleStatus={() => { }}
+          cells={cells}
+          selectedCellId={selectedCell?.id}
+          onCellChange={(cellId) => {
+            const cell = cells.find(c => c.id === cellId);
+            if (cell) setSelectedCell(cell);
+          }}
+          onIncrement={(cellId, amount = 1) => {
+            setCells(prev => prev.map(c => 
+              c.id === cellId 
+                ? { ...c, unitsProduced: Math.min(c.targetUnits, c.unitsProduced + amount) }
+                : c
+            ));
+          }}
+          onReportDefect={(cellId) => {
+            console.log('Reportar defeito:', cellId);
+            // Aqui pode abrir modal de reportar defeito
+          }}
+          onToggleStatus={(cellId) => {
+            setCells(prev => prev.map(c => 
+              c.id === cellId 
+                ? { ...c, status: c.status === 'OPERATIONAL' ? 'STOPPED' : 'OPERATIONAL' }
+                : c
+            ));
+          }}
           onBack={() => setCurrentView('DASHBOARD')}
         />;
       case 'ANALYTICS':

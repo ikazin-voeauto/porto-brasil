@@ -50,27 +50,30 @@ const AlertsHistory: React.FC = () => {
     <div className="p-8 space-y-8 animate-fadeIn pb-32">
       {/* Header & Quick Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-1 bg-black text-white p-8 rounded-[32px] flex flex-col justify-between shadow-2xl">
+        {/* Alertas Ativos Card */}
+        <div className="lg:col-span-1 bg-pb-black text-pb-white p-8 rounded-lg flex flex-col justify-between">
           <div>
             <h2 className="font-bold text-3xl mb-1 text-ind-warn">Alertas Ativos</h2>
-            <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Painel de Incidências IIoT</p>
+            <p className="text-[10px] text-pb-gray font-bold uppercase tracking-widest">Painel de Incidências IIoT</p>
           </div>
           <div className="mt-8 space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">Críticos</span>
+              <span className="text-xs text-pb-gray">Críticos</span>
               <span className="text-2xl font-mono text-ind-error">{stats.critical}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">Advertências</span>
+              <span className="text-xs text-pb-gray">Advertências</span>
               <span className="text-2xl font-mono text-ind-warn">{stats.warning}</span>
             </div>
-            <div className="flex justify-between items-center pt-4 border-t border-white/10">
-              <span className="text-xs text-zinc-400">Resolvidos Hoje</span>
+            <div className="flex justify-between items-center pt-4 border-t border-pb-white/10">
+              <span className="text-xs text-pb-gray">Resolvidos Hoje</span>
               <span className="text-2xl font-mono text-ind-ok">{stats.resolvedToday}</span>
             </div>
           </div>
         </div>
-        <div className="p-6 space-y-6 pb-20">
+
+        {/* Main Content Area */}
+        <div className="lg:col-span-3 space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Heatmap Card */}
             <Card className="lg:col-span-2">
@@ -169,15 +172,15 @@ const AlertsHistory: React.FC = () => {
 
                   {/* Expanded Content */}
                   {expandedAlert === alert.id && !alert.resolved && (
-                    <div className="mt-8 pt-6 border-t border-zinc-100 animate-slideDown">
+                    <div className="mt-8 pt-6 border-t border-pb-lightGray animate-slideDown">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="md:col-span-2">
-                          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Diagnóstico Detalhado</p>
-                          <p className="text-sm text-zinc-600 leading-relaxed bg-white p-4 rounded-2xl border border-zinc-100">{alert.details}</p>
+                          <p className="text-[10px] font-bold text-pb-gray uppercase tracking-widest mb-2">Diagnóstico Detalhado</p>
+                          <p className="text-sm text-pb-black leading-relaxed bg-pb-white p-4 rounded-lg border border-pb-lightGray">{alert.details}</p>
                         </div>
                         <div className="space-y-4">
-                          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Ações Sugeridas</p>
-                          <ul className="space-y-2 text-[10px] font-bold uppercase tracking-widest text-zinc-600">
+                          <p className="text-[10px] font-bold text-pb-gray uppercase tracking-widest mb-2">Ações Sugeridas</p>
+                          <ul className="space-y-2 text-[10px] font-bold uppercase tracking-widest text-pb-gray">
                             <li className="flex items-center text-ind-warn"><svg className="w-3 h-3 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Verificar Sensores</li>
                             <li className="flex items-center"><svg className="w-3 h-3 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Reset de Firmware</li>
                             <li className="flex items-center"><svg className="w-3 h-3 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Notificar Manutenção</li>
@@ -192,9 +195,9 @@ const AlertsHistory: React.FC = () => {
           </div>
 
           {filteredAlerts.length === 0 && (
-            <div className="py-32 text-center bg-zinc-50/50 rounded-xl">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+            <div className="py-32 text-center bg-pb-offWhite/50 rounded-lg">
+              <div className="w-16 h-16 bg-pb-white rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-ind-ok" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
               </div>
               <h3 className="font-bold text-xl mb-1 text-pb-black">Nenhuma Incidência Ativa</h3>
               <p className="text-[10px] text-pb-gray font-bold uppercase tracking-widest">Todas as células operando dentro dos parâmetros</p>

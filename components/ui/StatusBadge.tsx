@@ -14,7 +14,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status, label, size = 'md' })
             case 'OPERATIONAL': return 'bg-ind-ok/10 text-ind-ok border-ind-ok/20';
             case 'WARNING': return 'bg-ind-warn/10 text-ind-warn border-ind-warn/20';
             case 'STOPPED': return 'bg-ind-error/10 text-ind-error border-ind-error/20';
-            case 'MAINTENANCE': return 'bg-blue-50 text-blue-600 border-blue-100'; // Using Tailwind default for Maintenance for now or map to Info
+            case 'MAINTENANCE': return 'bg-ind-info/10 text-ind-info border-ind-info/20';
             case 'INFO': return 'bg-ind-info/10 text-ind-info border-ind-info/20';
             default: return 'bg-pb-lightGray/30 text-pb-gray border-pb-lightGray';
         }

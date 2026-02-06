@@ -132,7 +132,7 @@ const CellDetail: React.FC<CellDetailProps> = ({ cell, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-end">
       <div className="absolute inset-0 bg-pb-black/60 backdrop-blur-sm animate-fadeIn" onClick={onClose}></div>
 
-      <div className="w-full md:w-[600px] h-full bg-pb-offWhite shadow-2xl relative z-10 flex flex-col animate-slideLeft border-l border-pb-lightGray">
+      <div className="w-full md:w-[600px] h-full bg-pb-offWhite relative z-10 flex flex-col animate-slideLeft border-l border-pb-lightGray">
         {/* Header */}
         <div className="bg-pb-white p-8 border-b border-pb-lightGray flex justify-between items-center shrink-0">
           <div>

@@ -3,7 +3,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Porto Brasil - Industrial Monitor</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -57,6 +59,23 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #1C1C1C; /* pb.darkGray */
+        }
+        /* Mobile Touch Targets */
+        .touch-target {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        /* Prevent text selection on buttons */
+        button {
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Better touch feedback */
+        @media (hover: none) and (pointer: coarse) {
+            button:active {
+                opacity: 0.8;
+            }
         }
     </style>
 <script type="importmap">

@@ -80,19 +80,19 @@ const ProductionHistory: React.FC = () => {
                 <tr
                   key={idx}
                   onClick={() => setSelectedDay(day)}
-                  className={`hover:bg-zinc-50 transition-colors cursor-pointer group ${selectedDay?.timestamp === day.timestamp ? 'bg-zinc-50/50' : ''}`}
+                  className={`hover:bg-pb-offWhite transition-colors cursor-pointer group ${selectedDay?.timestamp === day.timestamp ? 'bg-pb-offWhite/50' : ''}`}
                 >
-                  <td className="px-6 py-5 font-bold text-black">{day.fullDate || day.timestamp}</td>
+                  <td className="px-6 py-5 font-bold text-pb-black">{day.fullDate || day.timestamp}</td>
                   <td className="px-6 py-5">
                     <span className={`font-bold ${day.oee < 80 ? 'text-ind-error' : 'text-pb-black'}`}>{day.oee}%</span>
                   </td>
-                  <td className="px-6 py-5 text-zinc-500">{day.availability}%</td>
-                  <td className="px-6 py-5 text-zinc-500">{day.performance}%</td>
-                  <td className="px-6 py-5 text-zinc-500">{day.quality}%</td>
-                  <td className={`px-6 py-5 font-medium ${day.downtime > 60 ? 'text-ind-error' : 'text-zinc-400'}`}>
+                  <td className="px-6 py-5 text-pb-gray">{day.availability}%</td>
+                  <td className="px-6 py-5 text-pb-gray">{day.performance}%</td>
+                  <td className="px-6 py-5 text-pb-gray">{day.quality}%</td>
+                  <td className={`px-6 py-5 font-medium ${day.downtime > 60 ? 'text-ind-error' : 'text-pb-gray'}`}>
                     {day.downtime} min
                   </td>
-                  <td className="px-6 py-5 text-right font-mono text-zinc-600">
+                  <td className="px-6 py-5 text-right font-mono text-pb-black">
                     {day.production.toLocaleString()}
                   </td>
                 </tr>

@@ -103,7 +103,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
             <button
               type="submit"
-              className="w-full py-4 bg-pb-black text-pb-white font-bold uppercase tracking-widest text-xs rounded hover:bg-zinc-800 transition-all transform active:scale-95 shadow-lg"
+              className="w-full py-4 bg-pb-black text-pb-white font-bold uppercase tracking-widest text-xs rounded-md hover:bg-pb-darkGray transition-all transform active:scale-95"
             >
               Acessar Sistema
             </button>
