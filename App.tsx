@@ -12,8 +12,10 @@ import ProductionHistory from './components/ProductionHistory';
 import AlertsHistory from './components/AlertsHistory';
 import Footer from './components/Footer';
 import Login from './components/Login';
+import SystemAccess from './components/SystemAccess';
 
 const App: React.FC = () => {
+  const [isSystemUnlocked, setIsSystemUnlocked] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<ViewType>('DASHBOARD');
   const [cells, setCells] = useState<ProductionCell[]>(MOCK_CELLS);
@@ -83,8 +85,8 @@ const App: React.FC = () => {
             if (cell) setSelectedCell(cell);
           }}
           onIncrement={(cellId, amount = 1) => {
-            setCells(prev => prev.map(c => 
-              c.id === cellId 
+            setCells(prev => prev.map(c =>
+              c.id === cellId
                 ? { ...c, unitsProduced: Math.min(c.targetUnits, c.unitsProduced + amount) }
                 : c
             ));
@@ -94,8 +96,8 @@ const App: React.FC = () => {
             // Aqui pode abrir modal de reportar defeito
           }}
           onToggleStatus={(cellId) => {
-            setCells(prev => prev.map(c => 
-              c.id === cellId 
+            setCells(prev => prev.map(c =>
+              c.id === cellId
                 ? { ...c, status: c.status === 'OPERATIONAL' ? 'STOPPED' : 'OPERATIONAL' }
                 : c
             ));
@@ -110,6 +112,10 @@ const App: React.FC = () => {
         return <Dashboard cells={cells} onCellClick={handleCellClick} />;
     }
   };
+
+  if (!isSystemUnlocked) {
+    return <SystemAccess onUnlock={() => setIsSystemUnlocked(true)} />;
+  }
 
   if (!isAuthenticated) {
     return <Login onLogin={() => setIsAuthenticated(true)} />;
