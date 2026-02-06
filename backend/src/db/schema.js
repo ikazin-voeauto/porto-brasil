@@ -44,58 +44,69 @@ async function initDb() {
         } finally {
             client.release();
         }
+    } catch (err) {
+        // PostgreSQL not available - system will work without persistence
+        console.warn('⚠️  PostgreSQL not available - running in memory-only mode');
+        console.warn('   Install PostgreSQL 18 to enable data persistence');
     }
+}
 
 async function logProduction(data) {
-        // Only log if there was production in this tick to save space, 
-        // or log everything if granular tracking is needed. 
-        // For simulation, we'll log when a piece is produced.
-        if (data.production.good === 0 && data.production.bad === 0) return;
+    // Only log if there was production in this tick to save space, 
+    // or log everything if granular tracking is needed. 
+    // For simulation, we'll log when a piece is produced.
+    if (data.production.good === 0 && data.production.bad === 0) return;
 
-        try {
-            const query = `
+    try {
+        const query = `
             INSERT INTO production_log (cell_id, product_code, status, units_good, units_bad, timestamp)
             VALUES ($1, $2, $3, $4, $5, $6)
         `;
-            const values = [
-                data.id,
-                data.product.code,
-                data.status,
-                data.production.good, // This is cumulative in the object, we might want delta. 
-                // For simplicity in this simulation, let's assume this function receives the current state 
-                // and we rely on the implementation to control frequency or we modify the simulator to send events.
-                data.production.bad,
-                data.timestamp
-            ];
-            // Note: In a real scenario we'd calculate delta or log events. 
-            // Here we will log snapshots.
-            // await pool.query(query, values); 
-        } catch (err) {
-            console.error('Error logging production:', err.message);
-        }
+        const values = [
+            data.id,
+            data.product.code,
+            data.status,
+            data.production.good, // This is cumulative in the object, we might want delta. 
+            // For simplicity in this simulation, let's assume this function receives the current state 
+            // and we rely on the implementation to control frequency or we modify the simulator to send events.
+            data.production.bad,
+            data.timestamp
+        ];
+        // Note: In a real scenario we'd calculate delta or log events. 
+        // Here we will log snapshots.
+        // await pool.query(query, values); 
+    } catch (err) {
+        console.error('Error logging production:', err.message);
     }
+}
 
-    async function logSnapshot(data) {
-        try {
-            const query = `
+async function logSnapshot(data) {
+    try {
+        // Validate required data structure
+        if (!data || !data.oee || !data.sensors) {
+            console.warn('Invalid data structure for logging snapshot');
+            return;
+        }
+
+        const query = `
             INSERT INTO oee_snapshots (cell_id, availability, performance, quality, global_oee, temperature, vibration, timestamp)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         `;
-            const values = [
-                data.id,
-                data.oee.availability,
-                data.oee.performance,
-                data.oee.quality,
-                data.oee.global,
-                data.sensors.temperature,
-                data.sensors.vibration,
-                data.timestamp
-            ];
-            await pool.query(query, values);
-        } catch (err) {
-            // Suppress errors for simulation if DB isn't present
-            // console.error('Error logging snapshot:', err.message);
-        }
+        const values = [
+            data.id,
+            data.oee.availability || data.availability,
+            data.oee.performance || data.performance,
+            data.oee.quality || data.quality,
+            data.oee.global || data.oee,
+            data.sensors.temperature || data.temperature,
+            data.sensors.vibration || data.vibration,
+            data.timestamp || new Date().toISOString()
+        ];
+        await pool.query(query, values);
+    } catch (err) {
+        // Suppress errors for simulation if DB isn't present
+        // console.error('Error logging snapshot:', err.message);
     }
+}
 
-    module.exports = { initDb, logSnapshot };
+module.exports = { initDb, logSnapshot };
