@@ -14,8 +14,13 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && password) {
+    // Simple client-side validation for demo purposes
+    // User: admin@portobrasil.com.br
+    // Pass: admin123
+    if (email === 'admin@portobrasil.com.br' && password === 'admin123') {
       onLogin();
+    } else {
+      alert('Credenciais inválidas! Tente: admin@portobrasil.com.br / admin123');
     }
   };
 
