@@ -11,63 +11,77 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, onLogout }) => {
   const menuItems = [
-    { id: 'DASHBOARD', label: 'Dashboard', icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
-    )},
-    { id: 'CELLS', label: 'Células', icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-    )},
-    { id: 'OPERATOR', label: 'Contagem', icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-    )},
-    { id: 'ANALYTICS', label: 'Histórico', icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-    )},
-    { id: 'ALERTS', label: 'Alertas', icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-    )},
+    {
+      id: 'DASHBOARD', label: 'DASHBOARD', icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+      )
+    },
+    {
+      id: 'CELLS', label: 'CÉLULAS', icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+      )
+    },
+    {
+      id: 'OPERATOR', label: 'CONTAGEM', icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      )
+    },
+    {
+      id: 'ANALYTICS', label: 'HISTÓRICO', icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+      )
+    },
+    {
+      id: 'ALERTS', label: 'ALERTAS', icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+      )
+    },
   ];
 
   return (
-    <div className="w-64 bg-black text-white flex flex-col h-full shrink-0 border-r border-zinc-900">
-      <div className="p-8 pt-12">
-        <Logo variant="full" color="#D4AF37" showSlogan={false} className="scale-90" />
-        <div className="mt-4 text-center">
-           <p className="text-[10px] text-zinc-500 tracking-[0.2em] font-bold uppercase">Sistemas IIoT</p>
+    <div className="w-64 bg-pb-black text-pb-white flex flex-col h-full shrink-0 border-r border-pb-darkGray">
+      <div className="p-6 h-20 flex items-center border-b border-pb-darkGray">
+        <div className="flex items-center space-x-3">
+          <div className="w-8 h-8 bg-pb-white rounded flex items-center justify-center">
+            <span className="text-pb-black font-bold text-lg">P</span>
+          </div>
+          <div>
+            <h1 className="font-bold text-sm tracking-widest uppercase">Porto Brasil</h1>
+            <p className="text-[10px] text-pb-gray uppercase">Industrial System</p>
+          </div>
         </div>
       </div>
 
-      <nav className="flex-1 px-4 mt-6 space-y-1">
+      <nav className="flex-1 px-3 mt-6 space-y-1">
         {menuItems.map((item) => (
           <button
             key={item.id}
             onClick={() => setView(item.id as ViewType)}
-            className={`w-full flex items-center space-x-3 px-4 py-4 rounded-xl transition-all duration-300 group ${
-              currentView === item.id 
-                ? 'bg-[#D4AF37] text-black shadow-lg shadow-[#D4AF37]/20 font-semibold' 
-                : 'hover:bg-zinc-900 text-zinc-400 hover:text-white'
-            }`}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded text-sm font-medium transition-all group ${currentView === item.id
+                ? 'bg-pb-darkGray text-pb-white border-l-2 border-pb-white'
+                : 'text-pb-gray hover:text-pb-white hover:bg-pb-darkGray/50'
+              }`}
           >
-            <span className={`transition-colors ${currentView === item.id ? 'text-black' : 'group-hover:text-[#D4AF37]'}`}>
+            <span className={`transition-colors ${currentView === item.id ? 'text-pb-white' : 'text-pb-gray group-hover:text-pb-white'}`}>
               {item.icon}
             </span>
-            <span className="text-sm tracking-wide">{item.label}</span>
+            <span className="tracking-wide">{item.label}</span>
           </button>
         ))}
       </nav>
 
-      <div className="px-4 py-6 border-t border-zinc-900 space-y-4">
-        <div className="flex items-center space-x-3 text-zinc-500 px-4">
-          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-          <span className="text-[10px] font-bold uppercase tracking-widest">Sistema Ativo</span>
+      <div className="p-4 border-t border-pb-darkGray">
+        <div className="flex items-center space-x-2 text-ind-ok px-4 mb-4">
+          <div className="w-2 h-2 rounded-full bg-ind-ok"></div>
+          <span className="text-[10px] font-bold uppercase tracking-widest">Sistema Online</span>
         </div>
-        
+
         <button
           onClick={onLogout}
-          className="w-full flex items-center space-x-3 px-4 py-4 rounded-xl text-zinc-500 hover:text-red-400 hover:bg-red-500/5 transition-all group"
+          className="w-full flex items-center space-x-3 px-4 py-3 rounded text-pb-gray hover:text-pb-white hover:bg-pb-darkGray transition-all"
         >
-          <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-6 0v-1m6-10V5a3 3 0 00-6 0v1" /></svg>
-          <span className="text-sm font-medium tracking-wide">Logout</span>
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-6 0v-1m6-10V5a3 3 0 00-6 0v1" /></svg>
+          <span className="text-sm font-medium">SAIR</span>
         </button>
       </div>
     </div>

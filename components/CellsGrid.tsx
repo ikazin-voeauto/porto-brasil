@@ -1,6 +1,7 @@
-
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ProductionCell } from '../types';
+import Card from './ui/Card';
+import StatusBadge, { Status } from './ui/StatusBadge';
 
 interface CellsGridProps {
   cells: ProductionCell[];
@@ -10,96 +11,80 @@ interface CellsGridProps {
 const CellsGrid: React.FC<CellsGridProps> = ({ cells, onCellClick }) => {
   const [filter, setFilter] = useState<string>('ALL');
 
-  const filteredCells = filter === 'ALL' 
-    ? cells 
-    : cells.filter(c => c.status === filter);
-
-  const statusColors: Record<string, string> = {
-    OPERATIONAL: 'bg-green-500',
-    WARNING: 'bg-yellow-500',
-    STOPPED: 'bg-red-500',
-    MAINTENANCE: 'bg-blue-500',
-  };
-
-  const statusLabels: Record<string, string> = {
-    OPERATIONAL: 'Operacional',
-    WARNING: 'Atenção',
-    STOPPED: 'Parada',
-    MAINTENANCE: 'Manutenção',
-  };
+  const filteredCells = useMemo(() => {
+    if (filter === 'ALL') return cells;
+    return cells.filter(c => c.status === filter);
+  }, [cells, filter]);
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-8 bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-        <div className="flex space-x-2">
-          {['ALL', 'OPERATIONAL', 'WARNING', 'STOPPED'].map(f => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-4 py-2 text-xs font-bold uppercase tracking-widest rounded transition-all ${
-                filter === f ? 'bg-black text-[#D4AF37]' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'
+    <div className="p-6 h-full flex flex-col">
+      {/* Filters */}
+      <div className="flex space-x-2 mb-6 overflow-x-auto pb-2 shrink-0">
+        {['ALL', 'OPERATIONAL', 'WARNING', 'STOPPED', 'MAINTENANCE'].map(status => (
+          <button
+            key={status}
+            onClick={() => setFilter(status)}
+            className={`px-4 py-2 rounded text-xs font-bold uppercase tracking-widest transition-all ${filter === status
+                ? 'bg-pb-black text-pb-white shadow-md'
+                : 'bg-pb-white border border-pb-lightGray text-pb-gray hover:bg-pb-offWhite hover:text-pb-black'
               }`}
-            >
-              {f === 'ALL' ? 'Todos' : statusLabels[f]}
-            </button>
-          ))}
-        </div>
-        <div className="text-xs text-gray-400">
-          Exibindo <span className="text-black font-bold">{filteredCells.length}</span> de <span className="text-black font-bold">{cells.length}</span> células
-        </div>
+          >
+            {status === 'ALL' ? 'Todos' : status}
+          </button>
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+      {/* Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 overflow-y-auto pb-20">
         {filteredCells.map(cell => (
-          <div 
+          <Card
             key={cell.id}
+            className={`cursor-pointer hover:border-pb-black transition-all group relative overflow-hidden flex flex-col justify-between`}
             onClick={() => onCellClick(cell)}
-            className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group overflow-hidden"
+            noPadding
           >
-            <div className={`h-1.5 w-full ${statusColors[cell.status]}`}></div>
-            <div className="p-6">
+            {/* Status Indicator Strip */}
+            <div className={`h-1.5 w-full ${cell.status === 'OPERATIONAL' ? 'bg-ind-ok' :
+                cell.status === 'STOPPED' ? 'bg-ind-error' :
+                  cell.status === 'WARNING' ? 'bg-ind-warn' : 'bg-blue-500'
+              }`}></div>
+
+            <div className="p-5 flex-1 flex flex-col">
               <div className="flex justify-between items-start mb-4">
+                <span className="text-xl font-bold text-pb-black tracking-tight">{cell.name}</span>
+                <StatusBadge status={cell.status as Status} size="sm" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <h4 className="font-luxury text-lg text-black leading-none">{cell.name}</h4>
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{cell.id}</span>
+                  <p className="text-[10px] text-pb-gray uppercase tracking-widest mb-0.5">OEE</p>
+                  <p className={`text-2xl font-bold font-mono ${cell.oee < 80 ? 'text-ind-error' : 'text-pb-black'}`}>
+                    {cell.oee}%
+                  </p>
                 </div>
-                <div className={`w-3 h-3 rounded-full ${statusColors[cell.status]} ${cell.status === 'STOPPED' ? 'animate-pulse' : ''}`}></div>
-              </div>
-
-              <div className="mb-6">
-                <div className="flex justify-between items-end mb-1">
-                  <span className="text-[10px] text-gray-400 font-bold uppercase">Eficiência OEE</span>
-                  <span className={`text-xl font-luxury ${cell.oee < 80 ? 'text-red-500' : 'text-gold'}`}>{cell.oee}%</span>
-                </div>
-                <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
-                  <div 
-                    className={`h-full rounded-full transition-all duration-1000 ${cell.oee < 80 ? 'bg-red-500' : 'bg-gold'}`}
-                    style={{ width: `${cell.oee}%` }}
-                  ></div>
+                <div>
+                  <p className="text-[10px] text-pb-gray uppercase tracking-widest mb-0.5">Temp.</p>
+                  <p className="text-2xl font-bold font-mono text-pb-black">
+                    {cell.temperature.toFixed(0)}°
+                  </p>
                 </div>
               </div>
 
-              <div className="space-y-3 pt-4 border-t border-gray-50">
-                <div className="flex justify-between text-[10px]">
-                  <span className="text-gray-400 uppercase font-medium">Produto Atual</span>
-                  <span className="text-black font-bold uppercase">{cell.currentProduct}</span>
-                </div>
-                <div className="flex justify-between text-[10px]">
-                  <span className="text-gray-400 uppercase font-medium">Prod. Real/Meta</span>
-                  <span className="text-black font-bold">{cell.unitsProduced} / {cell.targetUnits}</span>
-                </div>
-                <div className="flex justify-between text-[10px]">
-                  <span className="text-gray-400 uppercase font-medium">Temperatura</span>
-                  <span className="text-black font-bold">{cell.temperature.toFixed(1)} °C</span>
-                </div>
+              <div className="mt-auto pt-4 border-t border-pb-lightGray/50 flex justify-between items-center">
+                <span className="text-xs font-mono text-pb-gray">
+                  Prod: <span className="text-pb-black font-bold">{cell.productionCount}</span>
+                </span>
+                <span className="text-[10px] font-bold text-pb-gray uppercase tracking-widest group-hover:text-pb-black transition-colors">
+                  Detalhes &rarr;
+                </span>
               </div>
             </div>
-            
-            <div className="bg-gray-50 px-6 py-3 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
-              <span className="text-[10px] font-bold text-gray-400 uppercase">Ver Detalhes</span>
-              <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-            </div>
-          </div>
+
+            {cell.status === 'STOPPED' && (
+              <div className="absolute inset-0 bg-ind-error/5 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              </div>
+            )}
+          </Card>
         ))}
       </div>
     </div>

@@ -6,27 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Porto Brasil - Industrial Monitor</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pb: {
+                            black: '#0E0E0E',
+                            darkGray: '#1C1C1C',
+                            gray: '#6B6B6B',
+                            lightGray: '#DADADA',
+                            offWhite: '#F5F6F2',
+                            white: '#FFFFFF',
+                        },
+                        ind: {
+                            ok: '#2F6F3E',
+                            warn: '#8C7A3E',
+                            error: '#8E2A2A',
+                            info: '#4A5A64',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'], // Adding mono for data
+                    },
+                    fontSize: {
+                        'kpi': ['3rem', { lineHeight: '1' }],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F5F5DC;
-        }
-        .font-luxury {
-            font-family: 'Playfair Display', serif;
+            background-color: #F5F6F2; /* pb.offWhite */
+            color: #0E0E0E; /* pb.black */
         }
         ::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #DADADA; /* pb.lightGray */
         }
         ::-webkit-scrollbar-thumb {
-            background: #D4AF37;
+            background: #6B6B6B; /* pb.gray */
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #b8962d;
+            background: #1C1C1C; /* pb.darkGray */
         }
     </style>
 <script type="importmap">
@@ -39,7 +69,6 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
 <body>
     <div id="root"></div>

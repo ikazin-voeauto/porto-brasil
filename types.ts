@@ -37,6 +37,11 @@ export interface ProductionHistory {
   timestamp: string;
   oee: number;
   production: number;
+  downtime?: number;
+  availability?: number;
+  performance?: number;
+  quality?: number;
+  fullDate?: string;
 }
 
 export type ViewType = 'DASHBOARD' | 'CELLS' | 'ANALYTICS' | 'ALERTS' | 'OPERATOR';

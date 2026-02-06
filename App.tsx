@@ -32,7 +32,7 @@ const App: React.FC = () => {
   // Simulate real-time updates
   useEffect(() => {
     if (!isAuthenticated) return;
-    
+
     const interval = setInterval(() => {
       setCells(prev => prev.map(cell => {
         if (cell.status === 'OPERATIONAL' && Math.random() > 0.8) {
@@ -60,10 +60,10 @@ const App: React.FC = () => {
   const renderContent = () => {
     if (isLoading && isAuthenticated) {
       return (
-        <div className="flex-1 flex items-center justify-center bg-beige-50">
+        <div className="flex-1 flex items-center justify-center bg-pb-offWhite">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-black font-medium tracking-widest uppercase text-sm">Sincronizando Dados Industriais...</p>
+            <div className="w-16 h-16 border-4 border-ind-ok border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-pb-black font-bold tracking-widest uppercase text-sm">Sincronizando Dados Industriais...</p>
           </div>
         </div>
       );
@@ -75,11 +75,17 @@ const App: React.FC = () => {
       case 'CELLS':
         return <CellsGrid cells={cells} onCellClick={handleCellClick} />;
       case 'OPERATOR':
-        return <MobileCounter cell={cells[0]} />; // Defaulting to first cell for demo
+        return <MobileCounter
+          cell={cells[0]}
+          onIncrement={() => { }}
+          onReportDefect={() => { }}
+          onToggleStatus={() => { }}
+          onBack={() => setCurrentView('DASHBOARD')}
+        />;
       case 'ANALYTICS':
         return <ProductionHistory />;
       case 'ALERTS':
-        return <AlertsHistory />;
+        return <AlertsHistory alerts={[]} />;
       default:
         return <Dashboard cells={cells} onCellClick={handleCellClick} />;
     }
@@ -90,27 +96,27 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen bg-[#F5F5DC] overflow-hidden">
-      <Sidebar 
-        currentView={currentView} 
-        setView={setCurrentView} 
+    <div className="flex h-screen bg-pb-offWhite overflow-hidden font-sans text-pb-black">
+      <Sidebar
+        currentView={currentView}
+        setView={setCurrentView}
         onLogout={handleLogout}
       />
-      
+
       <div className="flex-1 flex flex-col overflow-hidden">
         {currentView !== 'OPERATOR' && <Header currentView={currentView} />}
-        
+
         <main className={`flex-1 overflow-y-auto relative ${currentView === 'OPERATOR' ? '' : 'pb-12'}`}>
           {renderContent()}
         </main>
-        
+
         {currentView !== 'OPERATOR' && <Footer />}
       </div>
 
       {selectedCell && (
-        <CellDetail 
-          cell={selectedCell} 
-          onClose={() => setSelectedCell(null)} 
+        <CellDetail
+          cell={selectedCell}
+          onClose={() => setSelectedCell(null)}
         />
       )}
     </div>
