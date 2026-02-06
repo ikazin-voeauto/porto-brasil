@@ -31,22 +31,29 @@ const App: React.FC = () => {
     }
   }, [isAuthenticated]);
 
-  // Simulate real-time updates
+  // Real-time updates from Backend
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    const interval = setInterval(() => {
-      setCells(prev => prev.map(cell => {
-        if (cell.status === 'OPERATIONAL' && Math.random() > 0.8) {
-          return {
-            ...cell,
-            unitsProduced: Math.min(cell.targetUnits, cell.unitsProduced + Math.floor(Math.random() * 3)),
-            temperature: cell.temperature + (Math.random() - 0.5) * 2
-          };
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/cells');
+        if (response.ok) {
+          const data = await response.json();
+          setCells(data);
+        } else {
+          console.error('Failed to fetch data');
         }
-        return cell;
-      }));
-    }, 3000);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Initial fetch
+    fetchData();
+
+    // Poll every 2 seconds
+    const interval = setInterval(fetchData, 2000);
     return () => clearInterval(interval);
   }, [isAuthenticated]);
 
