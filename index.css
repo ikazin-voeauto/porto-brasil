@@ -1,0 +1,123 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Porto Brasil - Industrial Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    @apply font-sans bg-pb-offWhite text-pb-black;
+    font-family: 'Inter', 'Roboto', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-pb-black;
+  }
+}
+
+@layer components {
+  /* Card padrão industrial */
+  .card {
+    @apply bg-pb-white border border-pb-lightGray rounded-lg p-6 shadow-sm;
+  }
+
+  /* Botão primário */
+  .btn-primary {
+    @apply bg-pb-black text-pb-white px-6 py-3 rounded-md font-medium 
+           hover:bg-pb-darkGray transition-colors duration-200;
+  }
+
+  /* Botão secundário */
+  .btn-secondary {
+    @apply bg-transparent text-pb-black border border-pb-lightGray px-6 py-3 rounded-md 
+           hover:bg-pb-offWhite transition-colors duration-200;
+  }
+
+  /* Status indicators */
+  .status-operational {
+    @apply bg-ind-ok text-white;
+  }
+
+  .status-warning {
+    @apply bg-ind-warn text-white;
+  }
+
+  .status-error {
+    @apply bg-ind-error text-white;
+  }
+
+  .status-stopped {
+    @apply bg-pb-gray text-white;
+  }
+
+  /* Input fields */
+  .input {
+    @apply border border-pb-lightGray rounded-md px-4 py-2 bg-pb-white text-pb-black
+           focus:outline-none focus:ring-2 focus:ring-pb-black focus:border-transparent;
+  }
+}
+
+@layer utilities {
+  /* Animação de fade-in suave */
+  .fade-in {
+    animation: fadeIn 0.3s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Loading spinner */
+  .spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #0E0E0E;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Tabela industrial */
+  .table-industrial {
+    @apply w-full border-collapse;
+  }
+
+  .table-industrial thead {
+    @apply bg-pb-offWhite border-b-2 border-pb-lightGray;
+  }
+
+  .table-industrial th {
+    @apply text-left py-3 px-4 text-pb-gray uppercase text-sm font-medium;
+  }
+
+  .table-industrial td {
+    @apply py-3 px-4 border-b border-pb-lightGray;
+  }
+
+  .table-industrial tbody tr:hover {
+    @apply bg-pb-offWhite;
+  }
+}

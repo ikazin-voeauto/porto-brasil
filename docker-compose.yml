@@ -1,0 +1,82 @@
+
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: porto-brasil-db
+    environment:
+      POSTGRES_DB: porto_brasil_mes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - porto-brasil-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: porto-brasil-mqtt
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_logs:/mosquitto/log
+    networks:
+      - porto-brasil-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: porto-brasil-backend
+    environment:
+      PORT: 3000
+      MQTT_BROKER_URL: mqtt://mosquitto:1883
+      PG_HOST: postgres
+      PG_PORT: 5432
+      PG_DATABASE: porto_brasil_mes
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    networks:
+      - porto-brasil-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: porto-brasil-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - porto-brasil-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  mosquitto_data:
+  mosquitto_logs:
+
+networks:
+  porto-brasil-network:
+    driver: bridge
