@@ -78,7 +78,7 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
             <p className="text-2xl font-bold text-ind-ok tracking-tight drop-shadow-[0_0_8px_rgba(47,111,62,0.3)]">{stats.totalGood.toLocaleString()}</p>
           </div>
           <div className="text-right">
-            <p className="text-[10px] font-bold text-pb-gray uppercase tracking-widest mb-1">Refugo (Bad)</p>
+            <p className="text-[10px] font-bold text-pb-gray uppercase tracking-widest mb-1">Refugo</p>
             <p className="text-2xl font-bold text-ind-error tracking-tight drop-shadow-[0_0_8px_rgba(142,42,42,0.3)]">{stats.totalBad.toLocaleString()}</p>
           </div>
           <div className="h-12 w-px bg-white/10"></div>

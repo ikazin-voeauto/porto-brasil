@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { ViewType } from '../types';
+import Logo from './Logo';
 
 interface HeaderProps {
   currentView: ViewType;
@@ -49,11 +50,11 @@ const Header: React.FC<HeaderProps> = ({ currentView }) => {
 
         <div className="flex items-center space-x-3 pl-6 border-l border-white/10">
           <div className="text-right">
-            <p className="text-xs font-bold text-white leading-none uppercase">Eng. Marcos Silva</p>
+            <p className="text-xs font-bold text-white leading-none uppercase">Márcio Vieira</p>
             <p className="text-[10px] text-pb-gray font-medium uppercase tracking-widest mt-0.5">Gestor Industrial</p>
           </div>
           <div className="w-8 h-8 rounded bg-white/10 border border-white/5 flex items-center justify-center overflow-hidden">
-            <span className="font-bold text-xs text-pb-gray">MS</span>
+            <Logo />
           </div>
         </div>
       </div>
