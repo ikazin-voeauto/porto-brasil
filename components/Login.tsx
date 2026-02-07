@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import ForgotPasswordModal from './ForgotPasswordModal';
 import Logo from './Logo';
 
+import oeeImage from '../assets/oee_completo.svg';
+
 interface LoginProps {
   onLogin: () => void;
 }
@@ -42,9 +44,16 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       <div className="w-full max-w-md p-8 relative z-10">
         <div className="w-full space-y-8">
 
-          <div className="text-center md:text-left space-y-2">
-            <h2 className="text-3xl font-semibold text-white tracking-[0.1em] uppercase">PORTO BRASIL</h2>
-            <p className="text-xs text-pb-white tracking-widest uppercase">Acesso ao Sistema de Monitoramento</p>
+          <div className="text-center space-y-4">
+            <img
+              src={oeeImage}
+              alt="OEE - Overall Equipment Effectiveness"
+              className="h-16 w-auto mx-auto object-contain"
+            />
+            <div className="space-y-2">
+              <h2 className="text-3xl font-semibold text-white tracking-[0.1em] uppercase">PORTO BRASIL</h2>
+              <p className="text-xs text-pb-white tracking-widest uppercase">Acesso ao Sistema de Monitoramento</p>
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8 mt-8">
