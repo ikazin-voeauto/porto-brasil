@@ -14,7 +14,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (usuario === 'marciovieira' && password === 'brasil123@') {
+    if (usuario === 'marciovieira' && password === 'portobrasil123@') {
       onLogin();
     } else {
       alert('Credenciais inválidas!');
@@ -35,7 +35,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
           <div className="text-center md:text-left space-y-2">
             <h2 className="text-3xl font-semibold text-white tracking-[0.1em] uppercase">PORTO BRASIL</h2>
-            <p className="text-xs text-pb-white tracking-widest uppercase">Sistema de Monitoramento Industrial</p>
+            <p className="text-xs text-pb-white tracking-widest uppercase">Acesso ao Sistema de Monitoramento</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8 mt-8">
@@ -74,13 +74,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 >
                   Senha
                 </label>
-                <button
-                  type="button"
-                  onClick={() => setIsForgotModalOpen(true)}
-                  className="absolute right-0 bottom-3 text-[9px] font-bold text-[#6B6B6B] uppercase tracking-widest hover:text-white transition-colors"
-                >
-                  Esqueceu?
-                </button>
               </div>
             </div>
 
@@ -94,7 +87,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
         </div>
 
-        <div className="mt-16 text-center space-y-2">
+        <div className="mt-12 text-center space-y-2">
           <p className="text-[10px] text-white/100 tracking-[0.2em] uppercase font-light hover:text-white transition-colors cursor-default">
             Propriedade da Porto Brasil
           </p>
