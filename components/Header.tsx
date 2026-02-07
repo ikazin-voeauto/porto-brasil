@@ -15,6 +15,14 @@ const Header: React.FC<HeaderProps> = ({ currentView }) => {
     OPERATOR: 'TERMINAL DE OPERAÇÃO',
   };
 
+  const breadcrumbs: Record<ViewType, string> = {
+    DASHBOARD: 'PAINEL',
+    CELLS: 'CÉLULAS',
+    ANALYTICS: 'HISTÓRICO',
+    ALERTS: 'ALERTAS',
+    OPERATOR: 'CONTAGEM',
+  };
+
   return (
     <header className="h-16 bg-pb-black border-b border-white/5 flex items-center justify-between px-6 shrink-0 z-10 w-full">
       <div className="flex items-center">
@@ -23,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ currentView }) => {
           <div className="flex items-center space-x-2 text-[10px] text-pb-gray uppercase tracking-widest font-medium">
             <span>Porto Brasil</span>
             <span>/</span>
-            <span className="text-white font-bold">{currentView}</span>
+            <span className="text-white font-bold">{breadcrumbs[currentView]}</span>
           </div>
         </div>
       </div>

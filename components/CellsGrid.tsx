@@ -20,18 +20,27 @@ const CellsGrid: React.FC<CellsGridProps> = ({ cells, onCellClick }) => {
     <div className="p-6 h-full flex flex-col">
       {/* Filters */}
       <div className="flex space-x-2 mb-6 overflow-x-auto pb-2 shrink-0">
-        {['ALL', 'OPERATIONAL', 'WARNING', 'STOPPED', 'MAINTENANCE'].map(status => (
-          <button
-            key={status}
-            onClick={() => setFilter(status)}
-            className={`px-4 py-2 rounded text-xs font-bold uppercase tracking-widest transition-all border ${filter === status
-              ? 'bg-white text-pb-black border-white shadow-[0_0_10px_rgba(255,255,255,0.2)]'
-              : 'bg-transparent border-white/10 text-pb-gray hover:border-white/30 hover:text-white'
-              }`}
-          >
-            {status === 'ALL' ? 'Todos' : status}
-          </button>
-        ))}
+        {['ALL', 'OPERATIONAL', 'WARNING', 'STOPPED', 'MAINTENANCE'].map(status => {
+          const labels: Record<string, string> = {
+            ALL: 'TODOS',
+            OPERATIONAL: 'OPERANDO',
+            WARNING: 'ALERTA',
+            STOPPED: 'PARADO',
+            MAINTENANCE: 'MANUTENÇÃO'
+          };
+          return (
+            <button
+              key={status}
+              onClick={() => setFilter(status)}
+              className={`px-4 py-2 rounded text-xs font-bold uppercase tracking-widest transition-all border ${filter === status
+                ? 'bg-white text-pb-black border-white shadow-[0_0_10px_rgba(255,255,255,0.2)]'
+                : 'bg-transparent border-white/10 text-pb-gray hover:border-white/30 hover:text-white'
+                }`}
+            >
+              {labels[status]}
+            </button>
+          );
+        })}
       </div>
 
       {/* Grid */}
