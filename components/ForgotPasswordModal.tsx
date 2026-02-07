@@ -34,12 +34,12 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({ onClose }) =>
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="email@portobrasil.com.br"
-                className="w-full px-4 py-3 bg-pb-offWhite border border-pb-lightGray rounded-md focus:outline-none focus:border-pb-black text-sm"
+                className="w-full px-4 py-3 bg-pb-white border border-pb-lightGray rounded-md focus:outline-none focus:border-pb-black text-sm"
                 required
               />
               <button
                 type="submit"
-                className="w-full py-4 bg-pb-black text-pb-white font-bold uppercase tracking-widest text-[10px] rounded-md"
+                className="w-full py-4 bg-pb-white text-pb-black font-bold uppercase tracking-widest text-[10px] rounded-md"
               >
                 Enviar Instruções
               </button>

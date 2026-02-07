@@ -3,7 +3,7 @@ import React from 'react';
 
 interface LogoProps {
   className?: string;
-  variant?: 'full' | 'icon' | 'wordmark';
+  variant?: 'full' | 'icon' | 'wordmark' | 'responsive';
   color?: string;
   showSlogan?: boolean;
 }
@@ -32,7 +32,9 @@ const Logo: React.FC<LogoProps> = ({
 
   return (
     <div className={`flex flex-col items-center justify-center ${className}`}>
-      {(variant === 'full' || variant === 'icon') && (
+      {variant === 'responsive' ? (
+        <Icon />
+      ) : (variant === 'full' || variant === 'icon') && (
         <div className={`${variant === 'full' ? 'w-20 h-20 mb-4' : 'w-10 h-10'}`}>
           <Icon />
         </div>
