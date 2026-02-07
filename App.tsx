@@ -13,6 +13,7 @@ import AlertsHistory from './components/AlertsHistory';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import SystemAccess from './components/SystemAccess';
+import DefectEntryModal from './components/DefectEntryModal';
 
 const App: React.FC = () => {
   const [isSystemUnlocked, setIsSystemUnlocked] = useState<boolean>(false);
@@ -20,6 +21,8 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewType>('DASHBOARD');
   const [cells, setCells] = useState<ProductionCell[]>(MOCK_CELLS);
   const [selectedCell, setSelectedCell] = useState<ProductionCell | null>(null);
+  const [isDefectModalOpen, setIsDefectModalOpen] = useState(false);
+  const [selectedCellForDefect, setSelectedCellForDefect] = useState<ProductionCell | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Simulate initial load after login
@@ -52,6 +55,7 @@ const App: React.FC = () => {
 
   const handleCellClick = (cell: ProductionCell) => {
     setSelectedCell(cell);
+    setCurrentView('OPERATOR');
   };
 
   const handleLogout = () => {
@@ -92,8 +96,11 @@ const App: React.FC = () => {
             ));
           }}
           onReportDefect={(cellId) => {
-            console.log('Reportar defeito:', cellId);
-            // Aqui pode abrir modal de reportar defeito
+            const cell = cells.find(c => c.id === cellId);
+            if (cell) {
+              setSelectedCellForDefect(cell);
+              setIsDefectModalOpen(true);
+            }
           }}
           onToggleStatus={(cellId) => {
             setCells(prev => prev.map(c =>
@@ -139,12 +146,37 @@ const App: React.FC = () => {
         {currentView !== 'OPERATOR' && <Footer />}
       </div>
 
-      {selectedCell && (
+      {selectedCell && currentView !== 'OPERATOR' && (
         <CellDetail
           cell={selectedCell}
           onClose={() => setSelectedCell(null)}
         />
       )}
+
+      <DefectEntryModal
+        isOpen={isDefectModalOpen}
+        onClose={() => setIsDefectModalOpen(false)}
+        onConfirm={(type, value) => {
+          if (selectedCellForDefect) {
+            setCells(prev => prev.map(c => {
+              if (c.id !== selectedCellForDefect.id) return c;
+
+              if (type === 'PRODUCT') {
+                return { ...c, badPieces: c.badPieces + (value as number) };
+              } else {
+                return {
+                  ...c,
+                  status: 'WARNING', // Or STOPPED, depending on business logic
+                  lastFault: value as string
+                };
+              }
+            }));
+          }
+          setIsDefectModalOpen(false);
+          setSelectedCellForDefect(null);
+        }}
+        cellName={selectedCellForDefect?.name || ''}
+      />
     </div>
   );
 };

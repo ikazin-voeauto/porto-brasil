@@ -53,23 +53,25 @@ const MobileCounter: React.FC<MobileCounterProps> = ({
         </Button>
 
         <div className="flex flex-col items-center flex-1 px-4">
-          {/* Cell Selector Trigger */}
+          {/* Cell Selector Trigger - Expanded Area */}
           <button
             onClick={() => setIsPickerOpen(true)}
-            className="flex items-center gap-3 px-6 py-2 rounded-full bg-[#111] border border-white/10 hover:border-white/30 transition-all group"
+            className="flex flex-col items-center gap-1 py-2 px-4 rounded-xl hover:bg-white/5 transition-all group cursor-pointer w-full max-w-[200px]"
           >
-            <span className="text-lg md:text-xl font-bold text-white group-hover:text-pb-offWhite">{cell.name}</span>
-            <svg className="w-5 h-5 text-pb-gray group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
+            <div className="flex items-center gap-3">
+              <span className="text-xl md:text-2xl font-bold text-white group-hover:text-pb-offWhite transition-colors">{cell.name}</span>
+              <svg className="w-5 h-5 text-pb-gray group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
 
-          <div className="flex items-center space-x-2 mt-2">
-            <span className={`w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] ${cell.status === 'OPERATIONAL' ? 'bg-ind-ok text-ind-ok animate-pulse' : 'bg-ind-error text-ind-error'}`}></span>
-            <span className={`text-[10px] font-bold uppercase tracking-wider ${cell.status === 'OPERATIONAL' ? 'text-ind-ok' : 'text-ind-error'}`}>
-              {cell.status === 'OPERATIONAL' ? 'EM PRODUÇÃO' : 'PARADA'}
-            </span>
-          </div>
+            <div className="flex items-center space-x-2">
+              <span className={`w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] ${cell.status === 'OPERATIONAL' ? 'bg-ind-ok text-ind-ok animate-pulse' : 'bg-ind-error text-ind-error'}`}></span>
+              <span className={`text-[10px] font-bold uppercase tracking-wider ${cell.status === 'OPERATIONAL' ? 'text-ind-ok' : 'text-ind-error'}`}>
+                {cell.status === 'OPERATIONAL' ? 'EM PRODUÇÃO' : 'PARADA'}
+              </span>
+            </div>
+          </button>
         </div>
 
         <div className="w-12 md:w-14"></div> {/* Spacer for alignment */}
@@ -136,19 +138,19 @@ const MobileCounter: React.FC<MobileCounterProps> = ({
           <p className="text-xs md:text-sm font-bold text-pb-gray uppercase tracking-widest mb-4 md:mb-6">PRODUÇÃO ATUAL</p>
 
           {/* Large Number - Responsive Size */}
-          <div className="text-[5rem] md:text-[7rem] lg:text-[8rem] leading-none font-bold font-mono tracking-tighter text-white tabular-nums mb-6 md:mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+          <div className="text-[5rem] md:text-[5rem] lg:text-[4rem] leading-none font-bold font-mono tracking-tighter text-white tabular-nums mb-4 md:mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
             {cell.unitsProduced.toLocaleString()}
           </div>
 
-          {/* Meta and Remaining - Stack on Mobile, Side by Side on Tablet+ */}
-          <div className="grid grid-cols-2 gap-4 md:gap-8 border-t border-white/5 pt-4 md:pt-6 mb-4 md:mb-6">
-            <div className="text-center">
-              <span className="text-[10px] uppercase tracking-widest text-pb-gray block mb-2">Meta Turno</span>
-              <span className="text-lg md:text-xl font-mono font-bold text-white">{target.toLocaleString()}</span>
+          {/* Meta and Remaining - High Visibility Update */}
+          <div className="grid grid-cols-2 gap-4 md:gap-8 border-t border-white/10 pt-4 md:pt-6 mb-4 md:mb-6">
+            <div className="text-center group-hover:bg-white/5 p-2 rounded-lg transition-colors">
+              <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-[#888] group-hover:text-white transition-colors block mb-1">Meta Turno</span>
+              <span className="text-3xl md:text-2xl font-mono font-bold text-white tracking-tight">{target.toLocaleString()}</span>
             </div>
-            <div className="text-center border-l border-white/5">
-              <span className="text-[10px] uppercase tracking-widest text-pb-gray block mb-2">Restante</span>
-              <span className="text-lg md:text-xl font-mono font-bold text-white">{remaining.toLocaleString()}</span>
+            <div className="text-center border-l border-white/10 group-hover:bg-white/5 p-2 rounded-lg transition-colors">
+              <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-[#888] group-hover:text-white transition-colors block mb-1">Restante</span>
+              <span className="text-3xl md:text-2xl font-mono font-bold text-white tracking-tight">{remaining.toLocaleString()}</span>
             </div>
           </div>
 
