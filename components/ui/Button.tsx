@@ -18,10 +18,10 @@ const Button: React.FC<ButtonProps> = ({
     const baseStyles = "inline-flex items-center justify-center font-bold uppercase tracking-widest rounded transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
     const variants = {
-        primary: "bg-pb-black text-pb-white hover:bg-pb-darkGray focus:ring-pb-black",
-        secondary: "bg-pb-white border border-pb-lightGray text-pb-black hover:bg-pb-offWhite focus:ring-pb-gray",
-        ghost: "bg-transparent text-pb-gray hover:text-pb-black hover:bg-pb-lightGray/20",
-        danger: "bg-ind-error text-pb-white hover:opacity-90 focus:ring-ind-error",
+        primary: "bg-white text-pb-black hover:bg-pb-lightGray focus:ring-white border border-transparent shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]",
+        secondary: "bg-transparent border border-white/20 text-white hover:bg-white/10 hover:border-white focus:ring-white/50",
+        ghost: "bg-transparent text-pb-gray hover:text-white hover:bg-white/5",
+        danger: "bg-ind-error/10 border border-ind-error/50 text-ind-error hover:bg-ind-error hover:text-white hover:border-ind-error focus:ring-ind-error",
     };
 
     const sizes = {

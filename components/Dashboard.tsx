@@ -86,7 +86,6 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
             onClick={() => setShowRawValues(!showRawValues)}
             variant="secondary"
             size="sm"
-            className="text-white border-white/20 hover:bg-white/10 hover:border-white/40 transition-all"
           >
             {showRawValues ? 'Ver Percentuais' : 'Ver Detalhes OEE'}
           </Button>
@@ -180,7 +179,7 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
             </div>
           </div>
 
-          <Button variant="secondary" className="w-full mt-8 bg-transparent border-white/10 text-pb-gray hover:bg-white hover:text-black hover:border-white transition-all uppercase tracking-widest text-xs py-4">
+          <Button variant="secondary" className="w-full mt-8 py-4 uppercase tracking-widest text-xs">
             Relatório PDF
           </Button>
         </div>

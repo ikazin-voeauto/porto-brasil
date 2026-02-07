@@ -26,9 +26,9 @@ const CellDetail: React.FC<CellDetailProps> = ({ cell, onClose }) => {
     <div className="space-y-6 animate-fadeIn">
       <div className="grid grid-cols-2 gap-4">
         {metrics.map((m, i) => (
-          <Card key={i} className={`flex flex-col justify-between h-28 hover:scale-[1.02] transition-transform ${m.highlight ? 'border-ind-ok/50' : ''}`}>
+          <Card key={i} className={`flex flex-col justify-between h-28 hover:scale-[1.02] transition-transform ${m.highlight ? 'border-ind-ok/50 bg-ind-ok/5' : 'bg-white/5'}`}>
             <span className="text-[10px] uppercase font-bold tracking-widest text-pb-gray">{m.label}</span>
-            <span className={`text-3xl font-mono ${m.highlight ? 'text-pb-black' : 'text-pb-black'}`}>{m.value}</span>
+            <span className={`text-3xl font-mono ${m.highlight ? 'text-white' : 'text-white'}`}>{m.value}</span>
           </Card>
         ))}
       </div>
@@ -45,9 +45,9 @@ const CellDetail: React.FC<CellDetailProps> = ({ cell, onClose }) => {
             { name: 'Consumo (kW)', val: '12.4', ok: true },
           ].map((s, i) => (
             <div key={i} className="flex justify-between items-center group">
-              <span className="text-xs text-pb-gray font-medium group-hover:text-pb-black transition-colors">{s.name}</span>
+              <span className="text-xs text-pb-gray font-medium group-hover:text-white transition-colors">{s.name}</span>
               <div className="text-right">
-                <p className={`font-mono text-sm ${s.ok ? 'text-pb-black' : 'text-ind-error'}`}>{s.val}</p>
+                <p className={`font-mono text-sm ${s.ok ? 'text-white' : 'text-ind-error'}`}>{s.val}</p>
                 <div className={`h-1 w-8 rounded-full ml-auto mt-1 ${s.ok ? 'bg-ind-ok' : 'bg-ind-error animate-pulse'}`}></div>
               </div>
             </div>
@@ -55,19 +55,19 @@ const CellDetail: React.FC<CellDetailProps> = ({ cell, onClose }) => {
         </div>
       </Card>
 
-      <div className="pt-8 border-t border-pb-lightGray">
+      <div className="pt-8 border-t border-white/5">
         <p className="text-[10px] text-pb-gray font-bold uppercase tracking-widest mb-4">Informações Técnicas</p>
         <div className="text-xs space-y-2">
-          <div className="flex justify-between"><span className="text-pb-gray">Localização:</span><span className="font-medium text-pb-black">Pavilhão C - Ala 2</span></div>
-          <div className="flex justify-between"><span className="text-pb-gray">Firmware:</span><span className="font-mono text-pb-black">v4.2.1-ind</span></div>
-          <div className="flex justify-between"><span className="text-pb-gray">Última Ref.:</span><span className="font-mono text-pb-black">12:04:22</span></div>
+          <div className="flex justify-between"><span className="text-pb-gray">Localização:</span><span className="font-medium text-white">Pavilhão C - Ala 2</span></div>
+          <div className="flex justify-between"><span className="text-pb-gray">Firmware:</span><span className="font-mono text-white">v4.2.1-ind</span></div>
+          <div className="flex justify-between"><span className="text-pb-gray">Última Ref.:</span><span className="font-mono text-white">12:04:22</span></div>
         </div>
       </div>
 
       <Button
         onClick={() => setIsReportModalOpen(true)}
         className="w-full mt-4"
-        variant="secondary"
+        variant="danger"
       >
         Reportar Falha
       </Button>
@@ -79,20 +79,20 @@ const CellDetail: React.FC<CellDetailProps> = ({ cell, onClose }) => {
       <Card>
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h3 className="text-lg font-bold text-pb-black">{cell.currentProduct}</h3>
+            <h3 className="text-lg font-bold text-white">{cell.currentProduct}</h3>
             <p className="text-[10px] text-pb-gray uppercase tracking-widest">Ordem Ativa</p>
           </div>
           <span className="px-3 py-1 bg-ind-ok/10 text-ind-ok text-[10px] font-bold uppercase rounded-full">Em Produção</span>
         </div>
 
         <div className="space-y-2 mb-6">
-          <div className="flex justify-between text-xs font-bold text-pb-black">
+          <div className="flex justify-between text-xs font-bold text-white">
             <span>Progresso</span>
             <span>{Math.round((cell.unitsProduced / cell.targetUnits) * 100)}%</span>
           </div>
-          <div className="w-full h-4 bg-pb-offWhite rounded-full overflow-hidden">
+          <div className="w-full h-4 bg-white/5 rounded-full overflow-hidden">
             <div
-              className="h-full bg-pb-black transition-all duration-1000"
+              className="h-full bg-white transition-all duration-1000"
               style={{ width: `${(cell.unitsProduced / cell.targetUnits) * 100}%` }}
             />
           </div>
@@ -108,15 +108,15 @@ const CellDetail: React.FC<CellDetailProps> = ({ cell, onClose }) => {
   const renderFaults = () => (
     <div className="space-y-4 animate-fadeIn">
       {cell.lastFault ? (
-        <Card className="border-l-4 border-l-ind-error">
+        <Card className="border-l-4 border-l-ind-error bg-ind-error/5">
           <div className="flex items-start space-x-4">
             <div className="p-2 bg-ind-error/10 text-ind-error rounded-full">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
             </div>
             <div>
-              <p className="font-bold text-pb-black text-sm">Falha Ativa Detectada</p>
+              <p className="font-bold text-white text-sm">Falha Ativa Detectada</p>
               <p className="text-xs text-pb-gray mt-1 mb-2">{cell.lastFault}</p>
-              <span className="text-[10px] font-mono bg-pb-offWhite px-2 py-1 rounded text-pb-gray">ERR-001</span>
+              <span className="text-[10px] font-mono bg-white/5 px-2 py-1 rounded text-pb-gray">ERR-001</span>
             </div>
           </div>
         </Card>
@@ -130,25 +130,25 @@ const CellDetail: React.FC<CellDetailProps> = ({ cell, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-end">
-      <div className="absolute inset-0 bg-pb-black/60 backdrop-blur-sm animate-fadeIn" onClick={onClose}></div>
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fadeIn" onClick={onClose}></div>
 
-      <div className="w-full md:w-[600px] h-full bg-pb-offWhite relative z-10 flex flex-col animate-slideLeft border-l border-pb-lightGray">
+      <div className="w-full md:w-[600px] h-full bg-[#111] relative z-10 flex flex-col animate-slideLeft border-l border-white/5 shadow-2xl">
         {/* Header */}
-        <div className="bg-pb-white p-8 border-b border-pb-lightGray flex justify-between items-center shrink-0">
+        <div className="bg-pb-black p-8 border-b border-white/5 flex justify-between items-center shrink-0">
           <div>
             <span className="text-[10px] font-bold text-pb-gray uppercase tracking-widest block mb-1">Detalhes da Célula</span>
-            <h2 className="text-3xl font-bold text-pb-black tracking-tighter">{cell.name}</h2>
+            <h2 className="text-3xl font-bold text-white tracking-tighter">{cell.name}</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-pb-offWhite rounded-full transition-colors text-pb-gray hover:text-pb-black"
+            className="p-2 hover:bg-white/5 rounded-full transition-colors text-pb-gray hover:text-white"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-pb-lightGray bg-pb-white px-8">
+        <div className="flex border-b border-white/5 bg-pb-black px-8">
           {[
             { id: 'OVERVIEW', label: 'Visão Geral' },
             { id: 'PRODUCTION', label: 'Produção' },
@@ -157,24 +157,24 @@ const CellDetail: React.FC<CellDetailProps> = ({ cell, onClose }) => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as TabType)}
-              className={`py-4 mr-8 text-[10px] font-bold uppercase tracking-widest transition-all relative ${activeTab === tab.id ? 'text-pb-black' : 'text-pb-gray hover:text-pb-black'
+              className={`py-4 mr-8 text-[10px] font-bold uppercase tracking-widest transition-all relative ${activeTab === tab.id ? 'text-white' : 'text-pb-gray hover:text-white'
                 }`}
             >
               {tab.label}
-              {activeTab === tab.id && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-pb-black"></div>}
+              {activeTab === tab.id && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-white"></div>}
             </button>
           ))}
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-8">
+        <div className="flex-1 overflow-y-auto p-8 bg-pb-darkGray">
           {activeTab === 'OVERVIEW' && renderOverview()}
           {activeTab === 'PRODUCTION' && renderProduction()}
           {activeTab === 'FAULTS' && renderFaults()}
         </div>
 
         {/* Footer */}
-        <div className="p-8 border-t border-pb-lightGray bg-pb-white shrink-0">
+        <div className="p-8 border-t border-white/5 bg-pb-black shrink-0">
           <div className="flex gap-4">
             <Button className="flex-1" variant="secondary">Histórico Completo</Button>
             <Button className="flex-1" variant="primary">Comandar Célula</Button>
