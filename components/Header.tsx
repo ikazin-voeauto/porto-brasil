@@ -28,11 +28,11 @@ const Header: React.FC<HeaderProps> = ({ currentView }) => {
     <header className="h-16 bg-pb-black border-b border-white/5 flex items-center justify-between px-6 shrink-0 z-10 w-full">
       <div className="flex items-center">
         <div className="flex flex-col">
-          <h2 className="text-lg font-bold text-white tracking-wide">{titles[currentView]}</h2>
+          <h2 className="text-sm font-bold text-white tracking-wide">{titles[currentView]}</h2>
           <div className="flex items-center space-x-2 text-[10px] text-pb-gray uppercase tracking-widest font-medium">
             <span>Porto Brasil</span>
             <span>/</span>
-            <span className="text-white font-bold">{breadcrumbs[currentView]}</span>
+            <span className="text-white text-[10px] font-bold">{breadcrumbs[currentView]}</span>
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ currentView }) => {
             <p className="text-[10px] text-pb-gray font-medium uppercase tracking-widest mt-0.5">Gestor Industrial</p>
           </div>
           <div className="w-8 h-8 rounded bg-white/10 border border-white/5 flex items-center justify-center overflow-hidden">
-            <Logo />
+            <Logo variant="responsive" className="w-5 h-5 text-white" />
           </div>
         </div>
       </div>
