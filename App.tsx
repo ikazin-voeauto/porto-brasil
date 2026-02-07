@@ -11,6 +11,7 @@ import MobileCounter from './components/MobileCounter';
 import ProductionHistory from './components/ProductionHistory';
 import AlertsHistory from './components/AlertsHistory';
 import Footer from './components/Footer';
+import MobileNav from './components/MobileNav';
 import Login from './components/Login';
 import SystemAccess from './components/SystemAccess';
 import DefectEntryModal from './components/DefectEntryModal';
@@ -130,20 +131,34 @@ const App: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-pb-black overflow-hidden font-sans text-pb-white">
-      <Sidebar
-        currentView={currentView}
-        setView={setCurrentView}
-        onLogout={handleLogout}
-      />
+      {/* Desktop Sidebar - Hidden on Mobile */}
+      <div className="hidden md:flex h-full shrink-0">
+        <Sidebar
+          currentView={currentView}
+          setView={setCurrentView}
+          onLogout={handleLogout}
+        />
+      </div>
 
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden relative">
+        {/* Header - Adjusted for Mobile */}
         {currentView !== 'OPERATOR' && <Header currentView={currentView} />}
 
-        <main className={`flex-1 overflow-y-auto relative ${currentView === 'OPERATOR' ? '' : 'pb-12'}`}>
+        <main className={`flex-1 overflow-y-auto relative ${currentView === 'OPERATOR' ? '' : 'pb-24 md:pb-12'}`}>
           {renderContent()}
         </main>
 
-        {currentView !== 'OPERATOR' && <Footer />}
+        {/* Footer - Hidden on Mobile to save space/avoid clutter */}
+        {currentView !== 'OPERATOR' && (
+          <div className="hidden md:block">
+            <Footer />
+          </div>
+        )}
+
+        {/* Mobile Navigation - Visible only on Mobile */}
+        {currentView !== 'OPERATOR' && (
+          <MobileNav currentView={currentView} setView={setCurrentView} />
+        )}
       </div>
 
       {selectedCell && currentView !== 'OPERATOR' && (

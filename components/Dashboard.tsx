@@ -93,15 +93,15 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
       </Card>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {kpis.map((kpi, idx) => (
           <Card key={idx} className="relative overflow-hidden cursor-pointer hover:border-white/20 hover:bg-white/[0.02] transition-all group">
             <div className={`absolute top-0 left-0 w-1 h-full transition-colors ${idx === 0 ? 'bg-white' : idx === 3 ? 'bg-ind-ok' : 'bg-transparent group-hover:bg-white/10'}`}></div>
-            <div className="flex justify-between items-start mb-3">
+            <div className="flex justify-between items-start mb-2 md:mb-3">
               <p className="text-[10px] font-bold text-pb-gray uppercase tracking-[0.1em]">{kpi.label}</p>
               <div className={`w-2 h-2 rounded-full ${idx === 3 ? 'bg-ind-ok animate-pulse' : 'bg-white/20'}`}></div>
             </div>
-            <p className={`text-6xl font-bold mb-2 ${kpi.color} tracking-tighter`}>{kpi.value}</p>
+            <p className={`text-5xl md:text-6xl font-bold mb-2 ${kpi.color} tracking-tighter`}>{kpi.value}</p>
             <p className="text-[10px] text-pb-gray font-mono uppercase tracking-wider">{kpi.sub}</p>
           </Card>
         ))}
