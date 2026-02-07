@@ -44,8 +44,8 @@ const ProductionHistory: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-white tracking-tight">Histórico de Produção</h2>
-          <p className="text-sm font-bold text-pb-gray uppercase tracking-widest mt-1">Análise de Performance Industrial</p>
+          <h2 className="text-2xl font-bold text-white tracking-tight">Histórico de Produção</h2>
+          <p className="text-sm font-semibold text-pb-gray uppercase tracking-widest mt-1">Análise de Performance Industrial</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <div className="flex bg-[#111] p-1 rounded-lg border border-white/5">
