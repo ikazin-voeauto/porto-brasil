@@ -56,11 +56,11 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, onLogout }) => 
             key={item.id}
             onClick={() => setView(item.id as ViewType)}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded text-sm font-medium transition-all group ${currentView === item.id
-              ? 'bg-pb-darkGray text-white border-l-2 border-white'
-              : 'text-pb-gray hover:text-white hover:bg-white/5'
+              ? 'bg-pb-white text-pb-black border-l-2 border-pb-white'
+              : 'text-pb-gray hover:text-pb-white hover:bg-white/5'
               }`}
           >
-            <span className={`transition-colors ${currentView === item.id ? 'text-white' : 'text-pb-gray group-hover:text-white'}`}>
+            <span className={`transition-colors ${currentView === item.id ? 'text-pb-black' : 'text-pb-gray group-hover:text-pb-white'}`}>
               {item.icon}
             </span>
             <span className="tracking-wide">{item.label}</span>
@@ -76,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, onLogout }) => 
 
         <button
           onClick={onLogout}
-          className="w-full flex items-center space-x-3 px-4 py-3 rounded text-pb-gray hover:text-white hover:bg-white/5 transition-all"
+          className="w-full flex items-center space-x-3 px-4 py-3 rounded text-pb-gray hover:text-pb-white hover:bg-white/5 transition-all"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-6 0v-1m6-10V5a3 3 0 00-6 0v1" /></svg>
           <span className="text-sm font-medium">SAIR</span>

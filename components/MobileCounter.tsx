@@ -130,15 +130,15 @@ const MobileCounter: React.FC<MobileCounterProps> = ({
       )}
 
       {/* Main Content - Stack Layout for Mobile */}
-      <div className="flex-1 flex flex-col p-4 md:p-6 space-y-4 md:space-y-6 overflow-y-auto pb-6">
-        {/* Main Counter Card - Mobile First */}
-        <Card className="p-6 md:p-8 text-center border-white/5 bg-pb-darkGray relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-50"></div>
+      <div className="flex-1 flex flex-col p-3 xs:p-4 sm:p-6 space-y-3 xs:space-y-4 sm:space-y-6 overflow-y-auto pb-6">
+        {/* Main Counter Card - LCD style, pulse on activity */}
+        <Card className="p-4 xs:p-6 sm:p-8 text-center border-white/5 bg-pb-darkGray relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-pb-white/10 to-transparent opacity-50"></div>
 
-          <p className="text-xs md:text-sm font-bold text-pb-gray uppercase tracking-widest mb-4 md:mb-6">PRODUÇÃO ATUAL</p>
+          <p className="text-[10px] xs:text-xs sm:text-sm font-bold text-pb-gray uppercase tracking-widest mb-3 xs:mb-4 sm:mb-6">PRODUÇÃO ATUAL</p>
 
-          {/* Large Number - Responsive Size */}
-          <div className="text-[5rem] md:text-[5rem] lg:text-[4rem] leading-none font-bold font-mono tracking-tighter text-white tabular-nums mb-4 md:mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+          {/* Large LCD-style number with pulse */}
+          <div className="text-[2.5rem] xs:text-[3rem] sm:text-[4.5rem] leading-none font-bold font-mono tracking-tighter text-pb-white tabular-nums mb-3 xs:mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.08)] lcd-pulse">
             {cell.unitsProduced.toLocaleString()}
           </div>
 

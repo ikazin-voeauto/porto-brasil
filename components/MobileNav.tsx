@@ -36,19 +36,19 @@ const MobileNav: React.FC<MobileNavProps> = ({ currentView, setView }) => {
     ];
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-pb-black border-t border-white/5 pb-safe z-50">
-            <div className="flex justify-around items-center h-16">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-pb-black border-t border-white/5 z-50 safe-area-pb">
+            <div className="flex justify-around items-center h-14 xs:h-16">
                 {navItems.map((item) => (
                     <button
                         key={item.id}
                         onClick={() => setView(item.id as ViewType)}
-                        className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${currentView === item.id ? 'text-white' : 'text-pb-gray'
+                        className={`flex flex-col items-center justify-center w-full h-full gap-0.5 xs:space-y-1 min-w-0 px-1 ${currentView === item.id ? 'text-pb-white' : 'text-pb-gray'
                             }`}
                     >
-                        <div className={`p-1 rounded-lg transition-colors ${currentView === item.id ? 'bg-white/10' : ''}`}>
-                            {item.icon}
+                        <div className={`p-1 rounded-lg transition-colors flex items-center justify-center ${currentView === item.id ? 'bg-pb-white/10' : ''}`}>
+                            <span className="w-5 h-5 xs:w-6 xs:h-6 [&>svg]:w-full [&>svg]:h-full block">{item.icon}</span>
                         </div>
-                        <span className="text-[9px] font-bold uppercase tracking-wider">{item.label}</span>
+                        <span className="text-[8px] xs:text-[9px] font-bold uppercase tracking-wider truncate w-full text-center">{item.label}</span>
                     </button>
                 ))}
             </div>

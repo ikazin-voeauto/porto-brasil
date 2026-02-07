@@ -40,14 +40,14 @@ const ProductionHistory: React.FC = () => {
   };
 
   return (
-    <div className="p-6 space-y-6 pb-20 bg-pb-black min-h-screen text-pb-white font-sans animate-fadeIn">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">Histórico de Produção</h2>
-          <p className="text-sm font-semibold text-pb-gray uppercase tracking-widest mt-1">Análise de Performance Industrial</p>
+    <div className="p-3 xs:p-4 sm:p-6 space-y-3 xs:space-y-4 sm:space-y-6 pb-24 xs:pb-24 sm:pb-20 bg-pb-black min-h-screen text-pb-white font-sans">
+      {/* Header - Compact on mobile */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 xs:gap-4 mb-4 xs:mb-6 sm:mb-8">
+        <div className="min-w-0">
+          <h2 className="text-lg xs:text-xl sm:text-2xl font-bold text-pb-white tracking-tight truncate">Histórico de Produção</h2>
+          <p className="text-[10px] xs:text-xs text-pb-gray uppercase tracking-widest mt-0.5 hidden xs:block">Análise de Performance</p>
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2 xs:gap-3 w-full xs:w-auto">
           <div className="flex bg-[#111] p-1 rounded-lg border border-white/5">
             {(['7D', '15D', '30D'] as const).map(range => (
               <button
@@ -68,14 +68,14 @@ const ProductionHistory: React.FC = () => {
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        <Card className="p-4 md:p-6 bg-pb-darkGray border-white/5 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <svg className="w-12 h-12 md:w-16 md:h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+      {/* KPI Cards - Compact on mobile */}
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6">
+        <Card className="p-3 xs:p-4 sm:p-6 bg-pb-darkGray border-white/5 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-2 xs:p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+            <svg className="w-8 h-8 xs:w-12 xs:h-12 sm:w-16 sm:h-16 text-pb-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
           </div>
-          <p className="text-[10px] md:text-xs font-bold text-pb-gray uppercase tracking-widest mb-1 md:mb-2">Produção Total</p>
-          <div className="text-2xl md:text-4xl font-mono font-bold text-white tracking-tighter drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+          <p className="text-[9px] xs:text-[10px] sm:text-xs font-bold text-pb-gray uppercase tracking-widest mb-0.5 xs:mb-1 sm:mb-2">Produção Total</p>
+          <div className="text-lg xs:text-xl sm:text-2xl md:text-4xl font-mono font-bold text-pb-white tracking-tighter">
             {stats.totalProd.toLocaleString()}
           </div>
           <p className="text-[10px] md:text-xs text-ind-ok mt-1 md:mt-2 font-bold flex items-center gap-1">
@@ -163,41 +163,38 @@ const ProductionHistory: React.FC = () => {
         </Card>
       </div>
 
-      {/* Data Table */}
-      <Card className="overflow-hidden bg-pb-darkGray border-white/5">
+      {/* Data Table - Sticky header, compact on mobile */}
+      <Card noPadding className="overflow-hidden bg-pb-darkGray border-white/5">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b border-white/10 text-[10px] font-bold uppercase tracking-widest text-pb-gray bg-[#111]">
-                <th className="px-6 py-4">Data</th>
-                <th className="px-6 py-4">OEE</th>
-                <th className="px-6 py-4">Disponibilidade</th>
-                <th className="px-6 py-4">Performance</th>
-                <th className="px-6 py-4">Qualidade</th>
-                <th className="px-6 py-4">Downtime</th>
-                <th className="px-6 py-4 text-right">Volume Total</th>
+          <table className="w-full text-left border-collapse min-w-[400px]">
+            <thead className="sticky top-0 z-10">
+              <tr className="border-b border-white/10 text-[9px] xs:text-[10px] font-bold uppercase tracking-widest text-pb-gray bg-[#111]">
+                <th className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-4">Data</th>
+                <th className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-4">OEE</th>
+                <th className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-4 hidden sm:table-cell">Disp.</th>
+                <th className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-4 hidden md:table-cell">Perf.</th>
+                <th className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-4 hidden md:table-cell">Qual.</th>
+                <th className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-4">Parada</th>
+                <th className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-4 text-right">Volume</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5 text-sm">
+            <tbody className="divide-y divide-white/5 text-xs xs:text-sm">
               {historyData.slice().reverse().map((day, idx) => (
-                <tr
-                  key={idx}
-                  className="hover:bg-white/5 transition-colors group"
-                >
-                  <td className="px-6 py-5 font-bold text-white font-mono">{day.fullDate}</td>
-                  <td className="px-6 py-5">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-2 h-2 rounded-full ${day.oee >= 80 ? 'bg-ind-ok shadow-[0_0_5px_currentColor]' : day.oee >= 70 ? 'bg-ind-warn' : 'bg-ind-error'}`}></div>
-                      <span className={`font-bold ${day.oee < 70 ? 'text-ind-error' : 'text-white'}`}>{day.oee}%</span>
+                <tr key={idx} className="hover:bg-white/5 transition-colors">
+                  <td className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-5 font-bold text-pb-white font-mono text-[10px] xs:text-sm">{day.fullDate}</td>
+                  <td className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-5">
+                    <div className="flex items-center gap-1.5">
+                      <div className={`w-1.5 h-1.5 xs:w-2 xs:h-2 rounded-full flex-shrink-0 ${day.oee >= 80 ? 'bg-ind-ok' : day.oee >= 70 ? 'bg-ind-warn' : 'bg-ind-error'}`}></div>
+                      <span className={`font-bold ${day.oee < 70 ? 'text-ind-error' : 'text-pb-white'}`}>{day.oee}%</span>
                     </div>
                   </td>
-                  <td className="px-6 py-5 text-pb-gray">{day.availability}%</td>
-                  <td className="px-6 py-5 text-pb-gray">{day.performance}%</td>
-                  <td className="px-6 py-5 text-pb-gray">{day.quality}%</td>
-                  <td className={`px-6 py-5 font-medium ${day.downtime > 60 ? 'text-ind-error' : 'text-pb-gray'}`}>
-                    {day.downtime} min
+                  <td className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-5 text-pb-gray hidden sm:table-cell">{day.availability}%</td>
+                  <td className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-5 text-pb-gray hidden md:table-cell">{day.performance}%</td>
+                  <td className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-5 text-pb-gray hidden md:table-cell">{day.quality}%</td>
+                  <td className={`px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-5 font-medium ${day.downtime > 60 ? 'text-ind-error' : 'text-pb-gray'}`}>
+                    {day.downtime} m
                   </td>
-                  <td className="px-6 py-5 text-right font-mono text-white tracking-tight">
+                  <td className="px-2 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-5 text-right font-mono text-pb-white tracking-tight">
                     {day.production.toLocaleString()}
                   </td>
                 </tr>

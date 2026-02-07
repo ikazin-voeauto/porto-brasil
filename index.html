@@ -12,6 +12,9 @@
         tailwind.config = {
             theme: {
                 extend: {
+                    screens: {
+                        'xs': '440px',  /* Mobile-first refinement breakpoint */
+                    },
                     colors: {
                         pb: {
                             black: '#0E0E0E',
@@ -30,7 +33,7 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['Roboto Mono', 'monospace'], // Adding mono for data
+                        mono: ['Roboto Mono', 'monospace'],
                     },
                     fontSize: {
                         'kpi': ['3rem', { lineHeight: '1' }],
@@ -43,8 +46,8 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F5F6F2; /* pb.offWhite */
-            color: #0E0E0E; /* pb.black */
+            background-color: #0E0E0E; /* pb.black - Premium Dark */
+            color: #FFFFFF; /* pb.white */
         }
         ::-webkit-scrollbar {
             width: 8px;
@@ -76,6 +79,14 @@
             button:active {
                 opacity: 0.8;
             }
+        }
+        @keyframes subtle-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.92; }
+        }
+        .lcd-pulse { animation: subtle-pulse 2.5s ease-in-out infinite; }
+        @media (max-width: 439px) {
+            .safe-area-pb { padding-bottom: env(safe-area-inset-bottom, 0); }
         }
     </style>
 <script type="importmap">

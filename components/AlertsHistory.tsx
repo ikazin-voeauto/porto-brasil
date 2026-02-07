@@ -54,38 +54,38 @@ const AlertsHistory: React.FC = () => {
   };
 
   return (
-    <div className="p-6 space-y-6 animate-fadeIn pb-32">
-      {/* Header & Quick Stats */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div className="p-3 xs:p-4 sm:p-6 space-y-3 xs:space-y-4 sm:space-y-6 pb-28 xs:pb-32">
+      {/* Header & Quick Stats - Compact on mobile */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 xs:gap-4 sm:gap-6">
         {/* Alertas Ativos Card */}
-        <div className="lg:col-span-1 bg-pb-darkGray border border-white/5 text-pb-white p-6 rounded-xl flex flex-col justify-between shadow-lg">
+        <div className="lg:col-span-1 bg-pb-darkGray border border-white/5 text-pb-white p-3 xs:p-4 sm:p-6 rounded-lg flex flex-col justify-between">
           <div>
-            <h2 className="font-bold text-2xl mb-1 text-white">Alertas Ativos</h2>
-            <p className="text-[10px] text-pb-gray font-bold uppercase tracking-widest">Painel de Incidências</p>
+            <h2 className="font-bold text-lg xs:text-xl sm:text-2xl mb-0.5 xs:mb-1 text-pb-white">Alertas Ativos</h2>
+            <p className="text-[9px] xs:text-[10px] text-pb-gray font-bold uppercase tracking-widest">Incidências</p>
           </div>
-          <div className="mt-8 space-y-4">
-            <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg border border-white/5">
-              <span className="text-xs font-bold text-pb-gray uppercase tracking-wider">Críticos</span>
-              <span className="text-2xl font-mono font-bold text-ind-error drop-shadow-[0_0_8px_rgba(244,67,54,0.5)]">{stats.critical}</span>
+          <div className="mt-4 xs:mt-6 sm:mt-8 space-y-2 xs:space-y-4">
+            <div className="flex justify-between items-center p-2 xs:p-3 bg-white/5 rounded-lg border border-white/5">
+              <span className="text-[9px] xs:text-xs font-bold text-pb-gray uppercase tracking-wider">Críticos</span>
+              <span className="text-xl xs:text-2xl font-mono font-bold text-ind-error">{stats.critical}</span>
             </div>
-            <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg border border-white/5">
-              <span className="text-xs font-bold text-pb-gray uppercase tracking-wider">Atenção</span>
-              <span className="text-2xl font-mono font-bold text-ind-warn">{stats.warning}</span>
+            <div className="flex justify-between items-center p-2 xs:p-3 bg-white/5 rounded-lg border border-white/5">
+              <span className="text-[9px] xs:text-xs font-bold text-pb-gray uppercase tracking-wider">Atenção</span>
+              <span className="text-xl xs:text-2xl font-mono font-bold text-ind-warn">{stats.warning}</span>
             </div>
-            <div className="flex justify-between items-center pt-4 border-t border-white/10">
-              <span className="text-xs font-bold text-pb-gray uppercase tracking-wider">Resolvidos Hoje</span>
-              <span className="text-2xl font-mono font-bold text-ind-ok">{stats.resolvedToday}</span>
+            <div className="flex justify-between items-center pt-3 xs:pt-4 border-t border-white/10">
+              <span className="text-[9px] xs:text-xs font-bold text-pb-gray uppercase tracking-wider">Resolvidos</span>
+              <span className="text-xl xs:text-2xl font-mono font-bold text-ind-ok">{stats.resolvedToday}</span>
             </div>
           </div>
         </div>
 
         {/* Main Content Area */}
-        <div className="lg:col-span-3 space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Heatmap Card */}
+        <div className="lg:col-span-3 space-y-3 xs:space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6">
+            {/* Heatmap Card - Dark theme, compact grid on mobile */}
             <Card className="lg:col-span-2 bg-pb-darkGray border-white/5">
-              <h3 className="font-bold text-lg text-white mb-6 uppercase tracking-wider">Mapa de Calor (24h)</h3>
-              <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
+              <h3 className="font-bold text-sm xs:text-base sm:text-lg text-pb-white mb-3 xs:mb-6 uppercase tracking-wider">Mapa de Calor (24h)</h3>
+              <div className="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-1 xs:gap-2">
                 {MOCK_HEATMAP_DATA.map(data => (
                   <div key={data.id} className="flex flex-col items-center group">
                     <div

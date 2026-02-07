@@ -67,10 +67,10 @@ const App: React.FC = () => {
   const renderContent = () => {
     if (isLoading && isAuthenticated) {
       return (
-        <div className="flex-1 flex items-center justify-center bg-pb-offWhite">
+        <div className="flex-1 flex items-center justify-center bg-pb-black">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-ind-ok border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-pb-black font-bold tracking-widest uppercase text-sm">Sincronizando Dados Industriais...</p>
+            <div className="w-12 h-12 xs:w-16 xs:h-16 border-4 border-ind-ok border-t-transparent rounded-full animate-spin mx-auto mb-3 xs:mb-4"></div>
+            <p className="text-pb-white font-bold tracking-widest uppercase text-xs xs:text-sm max-w-[200px] xs:max-w-none mx-auto">Sincronizando...</p>
           </div>
         </div>
       );
@@ -88,13 +88,6 @@ const App: React.FC = () => {
           onCellChange={(cellId) => {
             const cell = cells.find(c => c.id === cellId);
             if (cell) setSelectedCell(cell);
-          }}
-          onIncrement={(cellId, amount = 1) => {
-            setCells(prev => prev.map(c =>
-              c.id === cellId
-                ? { ...c, unitsProduced: Math.min(c.targetUnits, c.unitsProduced + amount) }
-                : c
-            ));
           }}
           onReportDefect={(cellId) => {
             const cell = cells.find(c => c.id === cellId);
