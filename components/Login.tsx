@@ -111,7 +111,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           </p>
           <div className="w-8 h-px bg-white/10 mx-auto"></div>
           <p className="text-[9px] text-white font-mono uppercase tracking-[0.3em] hover:text-[#6B6B6B] transition-colors cursor-default">
-            Dev by Ikazin Automação
+            Desenvolvido por Ikazin® · Engenharia e Automação
           </p>
         </div>
       </div>
