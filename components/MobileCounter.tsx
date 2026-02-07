@@ -7,7 +7,6 @@ interface MobileCounterProps {
   cells: ProductionCell[];
   selectedCellId?: string;
   onCellChange?: (cellId: string) => void;
-  onIncrement: (cellId: string, amount?: number) => void;
   onReportDefect: (cellId: string) => void;
   onToggleStatus: (cellId: string) => void;
   onBack: () => void;
@@ -21,6 +20,8 @@ const MobileCounter: React.FC<MobileCounterProps> = ({
   onToggleStatus,
   onBack
 }) => {
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+
   const currentCellId = selectedCellId || cells[0]?.id || '';
   const cell = cells.find(c => c.id === currentCellId) || cells[0];
 
@@ -30,17 +31,17 @@ const MobileCounter: React.FC<MobileCounterProps> = ({
   const remaining = Math.max(0, target - cell.unitsProduced);
   const progress = Math.min(100, (cell.unitsProduced / target) * 100);
 
-  const handleCellSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newCellId = e.target.value;
+  const handleCellSelect = (cellId: string) => {
     if (onCellChange) {
-      onCellChange(newCellId);
+      onCellChange(cellId);
     }
+    setIsPickerOpen(false);
   };
 
   return (
     <div className="fixed inset-0 bg-pb-black z-50 flex flex-col font-sans">
       {/* Header - Mobile/Tablet Optimized */}
-      <div className="h-16 md:h-20 flex items-center justify-between px-4 md:px-6 border-b border-white/5 shrink-0 bg-pb-black">
+      <div className="h-16 md:h-20 flex items-center justify-between px-4 md:px-6 border-b border-white/5 shrink-0 bg-pb-black relative z-40">
         <Button
           onClick={onBack}
           variant="ghost"
@@ -52,23 +53,17 @@ const MobileCounter: React.FC<MobileCounterProps> = ({
         </Button>
 
         <div className="flex flex-col items-center flex-1 px-4">
-          {/* Cell Selector */}
-          <div className="relative w-full max-w-xs">
-            <select
-              value={currentCellId}
-              onChange={handleCellSelect}
-              className="w-full text-lg md:text-xl font-bold text-white bg-[#111] border border-white/10 rounded px-4 py-2 pr-8 focus:outline-none focus:border-white focus:ring-1 focus:ring-white/20 appearance-none cursor-pointer text-center transition-all"
-            >
-              {cells.map(c => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-              <svg className="w-5 h-5 text-pb-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
+          {/* Cell Selector Trigger */}
+          <button
+            onClick={() => setIsPickerOpen(true)}
+            className="flex items-center gap-3 px-6 py-2 rounded-full bg-[#111] border border-white/10 hover:border-white/30 transition-all group"
+          >
+            <span className="text-lg md:text-xl font-bold text-white group-hover:text-pb-offWhite">{cell.name}</span>
+            <svg className="w-5 h-5 text-pb-gray group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
           <div className="flex items-center space-x-2 mt-2">
             <span className={`w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] ${cell.status === 'OPERATIONAL' ? 'bg-ind-ok text-ind-ok animate-pulse' : 'bg-ind-error text-ind-error'}`}></span>
             <span className={`text-[10px] font-bold uppercase tracking-wider ${cell.status === 'OPERATIONAL' ? 'text-ind-ok' : 'text-ind-error'}`}>
@@ -79,6 +74,58 @@ const MobileCounter: React.FC<MobileCounterProps> = ({
 
         <div className="w-12 md:w-14"></div> {/* Spacer for alignment */}
       </div>
+
+      {/* Cell Picker Modal */}
+      {isPickerOpen && (
+        <div className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-md flex flex-col animate-fadeIn">
+          {/* Picker Header */}
+          <div className="h-20 flex items-center justify-between px-6 border-b border-white/10 bg-pb-black/50 shrink-0">
+            <h2 className="text-2xl font-bold text-white tracking-tight">Selecionar Célula</h2>
+            <button
+              onClick={() => setIsPickerOpen(false)}
+              className="p-2 rounded-full hover:bg-white/10 text-pb-gray hover:text-white transition-colors"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+          </div>
+
+          {/* Picker Grid - Mini Cards */}
+          <div className="flex-1 overflow-y-auto p-6 flex flex-col items-center">
+            <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-4 w-full max-w-5xl">
+              {cells.map(c => (
+                <button
+                  key={c.id}
+                  onClick={() => handleCellSelect(c.id)}
+                  className={`
+                    group relative aspect-square rounded-xl border-2 flex flex-col items-center justify-center transition-all duration-300
+                    ${c.id === currentCellId
+                      ? 'bg-white border-white text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-110 z-10'
+                      : c.status === 'OPERATIONAL'
+                        ? 'bg-[#111] border-ind-ok/30 text-ind-ok hover:border-ind-ok hover:bg-ind-ok/10 hover:shadow-[0_0_15px_rgba(76,175,80,0.3)]'
+                        : 'bg-[#111] border-ind-error/30 text-ind-error hover:border-ind-error hover:bg-ind-error/10 hover:shadow-[0_0_15px_rgba(244,67,54,0.3)]'
+                    }
+                  `}
+                >
+                  <span className={`text-2xl md:text-3xl font-bold font-mono tracking-tighter ${c.id === currentCellId ? '' : 'drop-shadow-[0_0_8px_rgba(0,0,0,0.5)]'}`}>
+                    {c.id.replace('C', '')}
+                  </span>
+
+                  {/* Status Indicator Dot (subtle) */}
+                  <div className={`
+                    absolute top-3 right-3 w-2 h-2 rounded-full
+                    ${c.status === 'OPERATIONAL' ? 'bg-ind-ok shadow-[0_0_5px_currentColor]' : 'bg-ind-error shadow-[0_0_5px_currentColor]'}
+                  `} />
+
+                  {/* Label on Hover */}
+                  <span className="absolute bottom-2 text-[10px] uppercase font-bold tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                    Célula
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content - Stack Layout for Mobile */}
       <div className="flex-1 flex flex-col p-4 md:p-6 space-y-4 md:space-y-6 overflow-y-auto pb-6">
@@ -162,8 +209,8 @@ const MobileCounter: React.FC<MobileCounterProps> = ({
             variant="secondary"
             size="lg"
             className={`w-full min-h-[56px] md:min-h-[64px] py-4 flex flex-col items-center justify-center gap-2 touch-target border ${cell.status === 'OPERATIONAL'
-                ? 'bg-ind-warn/10 border-ind-warn/50 text-ind-warn hover:bg-ind-warn hover:text-pb-black shadow-[0_0_10px_rgba(255,193,7,0.1)]'
-                : 'bg-ind-ok/10 border-ind-ok/50 text-ind-ok hover:bg-ind-ok hover:text-pb-white shadow-[0_0_10px_rgba(76,175,80,0.1)]'
+              ? 'bg-ind-warn/10 border-ind-warn/50 text-ind-warn hover:bg-ind-warn hover:text-pb-black shadow-[0_0_10px_rgba(255,193,7,0.1)]'
+              : 'bg-ind-ok/10 border-ind-ok/50 text-ind-ok hover:bg-ind-ok hover:text-pb-white shadow-[0_0_10px_rgba(76,175,80,0.1)]'
               }`}
             aria-label={cell.status === 'OPERATIONAL' ? 'Pausar Célula' : 'Retomar Célula'}
           >
