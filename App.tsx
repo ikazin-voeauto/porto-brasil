@@ -122,7 +122,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen bg-pb-offWhite overflow-hidden font-sans text-pb-black">
+    <div className="flex h-screen bg-pb-black overflow-hidden font-sans text-pb-white">
       <Sidebar
         currentView={currentView}
         setView={setCurrentView}

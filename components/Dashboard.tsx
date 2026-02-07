@@ -53,7 +53,7 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
             <select
               value={filterCell}
               onChange={(e) => setFilterCell(e.target.value)}
-              className="bg-pb-offWhite border border-pb-lightGray rounded px-3 py-2 text-sm font-semibold focus:outline-none focus:border-pb-black appearance-none"
+              className="bg-pb-black border border-white/10 rounded px-3 py-2 text-sm font-semibold text-white focus:outline-none focus:border-white appearance-none"
             >
               <option value="ALL">Todas as Células (01-20)</option>
               {cells.map(c => (
@@ -80,11 +80,12 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
             <p className="text-[10px] font-bold text-pb-gray uppercase tracking-widest">Refugo (Bad)</p>
             <p className="text-xl font-bold text-ind-error">{stats.totalBad.toLocaleString()}</p>
           </div>
-          <div className="h-10 w-px bg-pb-lightGray"></div>
+          <div className="h-10 w-px bg-white/10"></div>
           <Button
             onClick={() => setShowRawValues(!showRawValues)}
             variant="secondary"
             size="sm"
+            className="text-white border-white/20 hover:bg-white/10"
           >
             {showRawValues ? 'Ver Percentuais' : 'Ver Detalhes OEE'}
           </Button>
@@ -94,12 +95,12 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
       {/* KPI Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {kpis.map((kpi, idx) => (
-          <Card key={idx} className="cursor-pointer hover:border-pb-black transition-colors group">
+          <Card key={idx} className="cursor-pointer hover:border-white/20 transition-colors group">
             <div className="flex justify-between items-start mb-2">
               <p className="text-[10px] font-bold text-pb-gray uppercase tracking-[0.1em]">{kpi.label}</p>
-              <div className="w-1.5 h-1.5 rounded-full bg-pb-black opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </div>
-            <p className={`text-5xl font-bold mb-1 ${kpi.color} tracking-tight`}>{kpi.value}</p>
+            <p className={`text-5xl font-bold mb-1 ${kpi.color === 'text-pb-black' ? 'text-white' : kpi.color} tracking-tight`}>{kpi.value}</p>
             <p className="text-[10px] text-pb-gray font-mono uppercase">{kpi.sub}</p>
           </Card>
         ))}
@@ -110,49 +111,55 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
         <Card className="xl:col-span-2">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className="font-bold text-xl tracking-wide">Produção Horária</h3>
+              <h3 className="font-bold text-xl tracking-wide text-white">Produção Horária</h3>
               <p className="text-[10px] text-pb-gray font-bold uppercase tracking-widest mt-1">Volume de peças processadas nas últimas 24h</p>
             </div>
           </div>
           <div className="h-[350px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={MOCK_HISTORY}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E5E5" />
+                <defs>
+                  <linearGradient id="colorProduction" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#FFFFFF" stopOpacity={0.1} />
+                    <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#333333" />
                 <XAxis dataKey="timestamp" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#6B6B6B' }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#6B6B6B' }} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#1C1C1C', border: 'none', borderRadius: '4px', color: '#fff' }}
+                  contentStyle={{ backgroundColor: '#0E0E0E', border: '1px solid #333', borderRadius: '4px', color: '#fff' }}
                   itemStyle={{ color: '#DADADA' }}
-                  cursor={{ stroke: '#0E0E0E', strokeWidth: 1 }}
+                  cursor={{ stroke: '#666', strokeWidth: 1 }}
                 />
-                <Area type="step" dataKey="production" stroke="#0E0E0E" strokeWidth={2} fill="#F5F6F2" />
+                <Area type="monotone" dataKey="production" stroke="#FFFFFF" strokeWidth={2} fillOpacity={1} fill="url(#colorProduction)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </Card>
 
         {/* Quick Status Sidebar */}
-        <div className="bg-pb-black rounded-lg p-6 text-pb-white shadow-lg flex flex-col justify-between">
+        <div className="bg-pb-black rounded-lg p-6 text-white shadow-lg flex flex-col justify-between border border-white/5">
           <div>
-            <h3 className="font-bold text-xl mb-6 tracking-wide">Status Industrial</h3>
+            <h3 className="font-bold text-xl mb-6 tracking-wide text-white">Status Industrial</h3>
             <div className="space-y-4">
-              <div className="flex justify-between items-center p-4 bg-pb-white/5 rounded border border-pb-white/10">
+              <div className="flex justify-between items-center p-4 bg-white/5 rounded border border-white/10">
                 <span className="text-xs font-bold text-pb-gray uppercase tracking-widest">Ciclo Médio</span>
-                <span className="text-xl font-mono font-bold text-pb-white">42.8s</span>
+                <span className="text-xl font-mono font-bold text-white">42.8s</span>
               </div>
-              <div className="flex justify-between items-center p-4 bg-pb-white/5 rounded border border-pb-white/10">
+              <div className="flex justify-between items-center p-4 bg-white/5 rounded border border-white/10">
                 <span className="text-xs font-bold text-pb-gray uppercase tracking-widest">Consumo</span>
-                <span className="text-xl font-mono font-bold text-pb-white">1.2 MW/h</span>
+                <span className="text-xl font-mono font-bold text-white">1.2 MW/h</span>
               </div>
 
-              <div className="pt-4 border-t border-pb-white/10">
-                <h4 className="text-[10px] font-bold text-pb-lightGray uppercase tracking-widest mb-4">Alertas Recentes</h4>
+              <div className="pt-4 border-t border-white/10">
+                <h4 className="text-[10px] font-bold text-pb-gray uppercase tracking-widest mb-4">Alertas Recentes</h4>
                 <div className="space-y-2">
                   {cells.filter(c => c.status === 'STOPPED').slice(0, 3).map(c => (
-                    <div key={c.id} className="flex items-center space-x-3 text-xs bg-ind-error/20 p-2 rounded border border-ind-error/30">
+                    <div key={c.id} className="flex items-center space-x-3 text-xs bg-ind-error/10 p-2 rounded border border-ind-error/20">
                       <div className="w-1.5 h-1.5 rounded-full bg-ind-error animate-pulse"></div>
-                      <span className="text-pb-lightGray font-mono font-bold">{c.id}</span>
-                      <span className="text-pb-lightGray truncate">{c.lastFault}</span>
+                      <span className="text-white font-mono font-bold">{c.id}</span>
+                      <span className="text-pb-gray truncate">{c.lastFault}</span>
                     </div>
                   ))}
                 </div>
@@ -160,7 +167,7 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
             </div>
           </div>
 
-          <Button variant="secondary" className="w-full mt-6 bg-transparent border-pb-gray text-pb-gray hover:bg-pb-white hover:text-pb-black hover:border-pb-white">
+          <Button variant="secondary" className="w-full mt-6 bg-transparent border-pb-gray text-pb-gray hover:bg-white hover:text-pb-black hover:border-white transition-colors">
             Exportar Relatório PDF
           </Button>
         </div>
@@ -168,15 +175,15 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
 
       {/* Industrial Cell Table */}
       <Card noPadding className="overflow-hidden">
-        <div className="p-6 border-b border-pb-lightGray flex justify-between items-center">
+        <div className="p-6 border-b border-white/5 flex justify-between items-center">
           <div>
-            <h3 className="font-bold text-xl">Matriz de Monitoramento</h3>
+            <h3 className="font-bold text-xl text-white">Matriz de Monitoramento</h3>
             <p className="text-[10px] text-pb-gray font-bold uppercase tracking-widest mt-1">Performance individual de todas as 20 células</p>
           </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-pb-offWhite text-[10px] font-bold text-pb-gray uppercase tracking-widest border-b border-pb-lightGray">
+            <thead className="bg-[#111] text-[10px] font-bold text-pb-gray uppercase tracking-widest border-b border-white/5">
               <tr>
                 <th className="px-6 py-3">ID / Célula</th>
                 <th className="px-6 py-3">Status</th>
@@ -187,32 +194,32 @@ const Dashboard: React.FC<DashboardProps> = ({ cells, onCellClick }) => {
                 <th className="px-6 py-3 text-right">Ação</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-pb-lightGray text-sm">
+            <tbody className="divide-y divide-white/5 text-sm">
               {displayCells.map(cell => (
                 <tr
                   key={cell.id}
                   onClick={() => onCellClick(cell)}
-                  className="hover:bg-pb-offWhite transition-colors cursor-pointer group"
+                  className="hover:bg-white/5 transition-colors cursor-pointer group"
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded bg-pb-lightGray flex items-center justify-center font-bold text-pb-gray text-xs font-mono">
+                      <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center font-bold text-pb-gray text-xs font-mono">
                         {cell.id.replace('C', '')}
                       </div>
-                      <span className="font-bold text-pb-black">{cell.name}</span>
+                      <span className="font-bold text-white">{cell.name}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <StatusBadge status={cell.status} size="sm" />
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`font-mono font-bold ${cell.oee < 80 ? 'text-ind-error' : 'text-pb-black'}`}>{cell.oee}%</span>
+                    <span className={`font-mono font-bold ${cell.oee < 80 ? 'text-ind-error' : 'text-white'}`}>{cell.oee}%</span>
                   </td>
-                  <td className="px-6 py-4 font-mono text-pb-black">{cell.goodPieces.toLocaleString()}</td>
+                  <td className="px-6 py-4 font-mono text-white">{cell.goodPieces.toLocaleString()}</td>
                   <td className="px-6 py-4 font-mono text-ind-error">{cell.badPieces.toLocaleString()}</td>
                   <td className="px-6 py-4 text-pb-gray font-mono">{cell.temperature.toFixed(0)}°C</td>
                   <td className="px-6 py-4 text-right">
-                    <svg className="w-5 h-5 ml-auto text-pb-gray group-hover:text-pb-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+                    <svg className="w-5 h-5 ml-auto text-pb-gray group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
                   </td>
                 </tr>
               ))}

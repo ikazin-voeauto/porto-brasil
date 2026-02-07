@@ -39,16 +39,14 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, onLogout }) => 
   ];
 
   return (
-    <div className="w-64 bg-pb-black text-pb-white flex flex-col h-full shrink-0 border-r border-pb-darkGray">
-      <div className="p-6 h-20 flex items-center border-b border-pb-darkGray">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-pb-white rounded flex items-center justify-center">
-            <span className="text-pb-black font-bold text-lg">P</span>
-          </div>
-          <div>
-            <h1 className="font-bold text-sm tracking-widest uppercase">Porto Brasil</h1>
-            <p className="text-[10px] text-pb-gray uppercase">Industrial System</p>
-          </div>
+    <div className="w-64 bg-pb-black text-pb-white flex flex-col h-full shrink-0 border-r border-white/5">
+      <div className="p-6 h-20 flex items-center gap-2 border-b border-white/5">
+        <div className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg shrink-0">
+          <Logo variant="icon" className="w-6 h-6 text-white" />
+        </div>
+        <div className="min-w-0">
+          <h1 className="font-bold text-sm tracking-widest uppercase truncate text-white">Porto Brasil</h1>
+          <p className="text-[10px] text-pb-gray uppercase truncate tracking-wider">Monitoramento</p>
         </div>
       </div>
 
@@ -58,11 +56,11 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, onLogout }) => 
             key={item.id}
             onClick={() => setView(item.id as ViewType)}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded text-sm font-medium transition-all group ${currentView === item.id
-                ? 'bg-pb-darkGray text-pb-white border-l-2 border-pb-white'
-                : 'text-pb-gray hover:text-pb-white hover:bg-pb-darkGray/50'
+              ? 'bg-pb-darkGray text-white border-l-2 border-white'
+              : 'text-pb-gray hover:text-white hover:bg-white/5'
               }`}
           >
-            <span className={`transition-colors ${currentView === item.id ? 'text-pb-white' : 'text-pb-gray group-hover:text-pb-white'}`}>
+            <span className={`transition-colors ${currentView === item.id ? 'text-white' : 'text-pb-gray group-hover:text-white'}`}>
               {item.icon}
             </span>
             <span className="tracking-wide">{item.label}</span>
@@ -70,15 +68,15 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, onLogout }) => 
         ))}
       </nav>
 
-      <div className="p-4 border-t border-pb-darkGray">
+      <div className="p-4 border-t border-white/5">
         <div className="flex items-center space-x-2 text-ind-ok px-4 mb-4">
-          <div className="w-2 h-2 rounded-full bg-ind-ok"></div>
+          <div className="w-2 h-2 rounded-full bg-ind-ok animate-pulse"></div>
           <span className="text-[10px] font-bold uppercase tracking-widest">Sistema Online</span>
         </div>
 
         <button
           onClick={onLogout}
-          className="w-full flex items-center space-x-3 px-4 py-3 rounded text-pb-gray hover:text-pb-white hover:bg-pb-darkGray transition-all"
+          className="w-full flex items-center space-x-3 px-4 py-3 rounded text-pb-gray hover:text-white hover:bg-white/5 transition-all"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-6 0v-1m6-10V5a3 3 0 00-6 0v1" /></svg>
           <span className="text-sm font-medium">SAIR</span>
