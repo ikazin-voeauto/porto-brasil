@@ -6,6 +6,12 @@ interface LoginProps {
   onLogin: () => void;
 }
 
+// Credenciais válidas (mesmo schema: usuário + senha)
+const CREDENTIALS = [
+  { usuario: 'marciovieira', senha: 'portobrasil123@' },
+  { usuario: 'victorvillalva', senha: 'portobrasil123@' },
+];
+
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [usuario, setUsuario] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +20,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (usuario === 'marciovieira' && password === 'portobrasil123@') {
+    const valid = CREDENTIALS.some(
+      (c) => c.usuario === usuario.trim().toLowerCase() && c.senha === password
+    );
+    if (valid) {
       onLogin();
     } else {
       alert('Credenciais inválidas!');
