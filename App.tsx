@@ -41,15 +41,16 @@ const App: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/cells');
+        const response = await fetch('/api/cells');
         if (response.ok) {
           const data = await response.json();
           setCells(data);
         } else {
-          console.error('Failed to fetch data');
+          throw new Error('Failed to fetch data');
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.warn('API unavailable, using mock data:', error);
+        setCells(MOCK_CELLS);
       }
     };
 
@@ -99,7 +100,7 @@ const App: React.FC = () => {
           onIncrement={async (cellId, amount = 1) => {
             // Call API
             try {
-              await fetch(`http://localhost:3000/api/cells/${cellId}/increment`, {
+              await fetch(`/api/cells/${cellId}/increment`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount })
@@ -118,7 +119,7 @@ const App: React.FC = () => {
           }}
           onToggleStatus={async (cellId) => {
             try {
-              await fetch(`http://localhost:3000/api/cells/${cellId}/toggle`, {
+              await fetch(`/api/cells/${cellId}/toggle`, {
                 method: 'POST'
               });
             } catch (e) {
