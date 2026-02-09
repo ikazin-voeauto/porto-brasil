@@ -15,7 +15,7 @@ O sistema de monitoramento comunica-se com o TOTVS Protheus via **REST API** par
 ### Arquitetura
 - **Protocolo**: HTTP/1.1 (REST)
 - **Formato de Dados**: JSON
-- **Autenticação**: Basic Auth (Padrão) ou OAuth2 (Recomendado se disponível no release)
+- **Autenticação**: Basic Auth (Padrão) ou OAuth2 (Recomendado quando disponível no release)
 - **Base URL (Exemplo)**: `http://<IP_PROTHEUS>:<PORTA_REST>/rest`
 
 ---
@@ -63,7 +63,7 @@ O usuário `MONITOR` deve ter permissão para executar as rotinas envolvidas nas
 Abaixo estão detalhados os serviços que devem ser expostos pelo Protheus. Caso o Protheus não possua as APIs nativas nestes exatos formatos, recomenda-se a criação de **APIs Customizadas (AdvPL/TLPP)** seguindo estas assinaturas para manter compatibilidade com o frontend desenvolvido.
 
 ### 3.1. Consultar Ordens de Produção
-Retorna a lista de Orys de Produção ativas para alimentar o painel de planejamento.
+Retorna a lista de Ordens de Produção ativas para alimentar o painel de planejamento.
 
 - **Método**: `GET`
 - **Rota Sugerida**: `/api/v1/erpprot/production-orders`
@@ -86,7 +86,7 @@ Retorna a lista de Orys de Produção ativas para alimentar o painel de planejam
       "orderId": "100101",        // Campo C2_NUM
       "productCode": "PA-001",    // Campo C2_PRODUTO
       "quantity": 5000,           // Campo C2_QUANT
-      "status": "S",              // Campo C2_STATUS (S=Suspens, P=Pend, R=Real)
+      "status": "S",              // Campo C2_STATUS (S=Suspensa, P=Pendente, R=Realizada)
       "issueDate": "2026-02-01"   // Campo C2_EMISSAO
     }
   ]
