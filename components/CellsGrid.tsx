@@ -43,8 +43,8 @@ const CellsGrid: React.FC<CellsGridProps> = ({ cells, onCellClick }) => {
         })}
       </div>
 
-      {/* Grid - Larger Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-4 sm:gap-6 overflow-y-auto pb-24">
+      {/* Grid - Standard Sized Cards */}
+      <div className="grid grid-cols-1 xs:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-3 sm:gap-4 overflow-y-auto pb-24">
         {filteredCells.map((cell) => {
           const statusColor =
             cell.status === 'OPERATIONAL' ? 'border-l-ind-ok' :
@@ -55,55 +55,55 @@ const CellsGrid: React.FC<CellsGridProps> = ({ cells, onCellClick }) => {
           return (
             <Card
               key={cell.id}
-              className={`cursor-pointer hover:border-white/20 active:scale-[0.99] transition-all duration-200 group relative overflow-hidden flex flex-col justify-between min-h-[280px] sm:min-h-[320px] border-l-8 ${statusColor} bg-pb-darkGray border border-white/5 shadow-xl`}
+              className={`cursor-pointer hover:border-white/20 active:scale-[0.99] transition-all duration-200 group relative overflow-hidden flex flex-col justify-between min-h-[220px] sm:min-h-[240px] border-l-[6px] ${statusColor} bg-pb-darkGray border border-white/5 shadow-lg`}
               onClick={() => onCellClick(cell)}
               noPadding
             >
-              <div className="p-5 sm:p-7 flex-1 flex flex-col relative z-10">
-                <div className="flex justify-between items-start mb-6">
+              <div className="p-4 sm:p-5 flex-1 flex flex-col relative z-10">
+                <div className="flex justify-between items-start mb-4">
                   <div className="min-w-0">
-                    <span className="text-sm font-bold text-pb-gray tracking-widest uppercase mb-1 block">Célula</span>
-                    <span className="text-3xl sm:text-4xl font-bold text-pb-white tracking-tight leading-none truncate block">{cell.name}</span>
+                    <span className="text-[10px] xs:text-xs font-bold text-pb-gray tracking-widest uppercase mb-0.5 block">Célula</span>
+                    <span className="text-xl sm:text-2xl font-bold text-pb-white tracking-tight leading-none truncate block">{cell.name}</span>
                   </div>
-                  <div className="flex-shrink-0 scale-125 origin-top-right"><StatusBadge status={cell.status as Status} size="sm" /></div>
+                  <div className="flex-shrink-0 scale-100 origin-top-right"><StatusBadge status={cell.status as Status} size="sm" /></div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6 mb-6">
-                  <div className="bg-pb-black/30 p-4 rounded-lg border border-white/5">
-                    <p className="text-xs font-bold text-pb-gray uppercase tracking-wider mb-1">OEE</p>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="bg-pb-black/30 p-3 rounded border border-white/5">
+                    <p className="text-[10px] xs:text-xs font-bold text-pb-gray uppercase tracking-wider mb-0.5">OEE</p>
                     <div className="flex items-baseline">
-                      <p className={`text-4xl sm:text-5xl font-bold font-mono tracking-tighter ${cell.oee < 80 ? 'text-ind-error' : 'text-pb-white'}`}>
+                      <p className={`text-2xl sm:text-3xl font-bold font-mono tracking-tighter ${cell.oee < 80 ? 'text-ind-error' : 'text-pb-white'}`}>
                         {cell.oee}
                       </p>
-                      <span className="text-sm font-bold text-pb-gray ml-1">%</span>
+                      <span className="text-xs font-bold text-pb-gray ml-0.5">%</span>
                     </div>
                   </div>
-                  <div className="bg-pb-black/30 p-4 rounded-lg border border-white/5">
-                    <p className="text-xs font-bold text-pb-gray uppercase tracking-wider mb-1">Temp.</p>
+                  <div className="bg-pb-black/30 p-3 rounded border border-white/5">
+                    <p className="text-[10px] xs:text-xs font-bold text-pb-gray uppercase tracking-wider mb-0.5">Temp.</p>
                     <div className="flex items-baseline">
-                      <p className="text-4xl sm:text-5xl font-bold font-mono tracking-tighter text-pb-white">
+                      <p className="text-2xl sm:text-3xl font-bold font-mono tracking-tighter text-pb-white">
                         {cell.temperature.toFixed(0)}
                       </p>
-                      <span className="text-sm font-bold text-pb-gray ml-1">°C</span>
+                      <span className="text-xs font-bold text-pb-gray ml-0.5">°C</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-auto pt-5 border-t border-white/5 flex justify-between items-center gap-2">
-                  <div className="flex items-center space-x-3 min-w-0">
-                    <span className="w-2 h-2 rounded-full bg-pb-white/20 flex-shrink-0"></span>
-                    <span className="font-mono text-pb-gray text-sm sm:text-base truncate">
-                      Prod: <span className="text-pb-white font-bold ml-1 text-lg">{cell.unitsProduced.toLocaleString()}</span>
+                <div className="mt-auto pt-3 border-t border-white/5 flex justify-between items-center gap-2">
+                  <div className="flex items-center space-x-2 min-w-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-pb-white/20 flex-shrink-0"></span>
+                    <span className="font-mono text-pb-gray text-xs truncate">
+                      Prod: <span className="text-pb-white font-bold ml-1 text-base">{cell.unitsProduced.toLocaleString()}</span>
                     </span>
                   </div>
-                  <span className="text-xs sm:text-sm font-bold text-pb-white/80 group-hover:text-pb-white transition-colors uppercase tracking-widest flex-shrink-0">
-                    Ver Detalhes &rarr;
+                  <span className="text-[10px] xs:text-xs font-bold text-pb-white/80 group-hover:text-pb-white transition-colors uppercase tracking-widest flex-shrink-0">
+                    Ver &rarr;
                   </span>
                 </div>
               </div>
 
               {cell.status === 'STOPPED' && (
-                <div className="absolute inset-0 bg-ind-error/10 pointer-events-none" />
+                <div className="absolute inset-0 bg-ind-error/5 pointer-events-none" />
               )}
             </Card>
           );
