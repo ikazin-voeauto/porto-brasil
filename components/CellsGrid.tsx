@@ -55,7 +55,7 @@ const CellsGrid: React.FC<CellsGridProps> = ({ cells, onCellClick }) => {
           return (
             <Card
               key={cell.id}
-              className={`cursor-pointer hover:border-white/20 active:scale-[0.99] transition-all duration-200 group relative overflow-hidden flex flex-col justify-between min-h-[220px] sm:min-h-[240px] border-l-[6px] ${statusColor} bg-pb-darkGray border border-white/5 shadow-lg`}
+              className={`cursor-pointer hover:border-white/20 active:scale-[0.99] transition-all duration-200 group relative overflow-hidden flex flex-col justify-between min-h-[220px] sm:min-h-[270px] border-l-[6px] ${statusColor} bg-pb-darkGray border border-white/5 shadow-lg`}
               onClick={() => onCellClick(cell)}
               noPadding
             >
