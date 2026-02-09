@@ -1,0 +1,65 @@
+services:
+  # Backend Service (Node.js)
+  - type: web
+    name: porto-brasil-backend
+    env: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: NODE_ENV
+        value: production
+      - key: MQTT_BROKER_URL
+        value: mqtt://test.mosquitto.org
+      - key: PG_HOST
+        fromDatabase:
+          name: porto-brasil-db
+          property: host
+      - key: PG_PORT
+        fromDatabase:
+          name: porto-brasil-db
+          property: port
+      - key: PG_DATABASE
+        fromDatabase:
+          name: porto-brasil-db
+          property: database
+      - key: PG_USER
+        fromDatabase:
+          name: porto-brasil-db
+          property: user
+      - key: PG_PASSWORD
+        fromDatabase:
+          name: porto-brasil-db
+          property: password
+
+  # Frontend Service (Static Site)
+  - type: static
+    name: porto-brasil-frontend
+    env: static
+    rootDir: .
+    plan: free
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: porto-brasil-backend
+          property: url
+
+databases:
+  # PostgreSQL Database
+  - name: porto-brasil-db
+    plan: free
+    databaseName: porto_brasil
+    user: postgres
+
+# This file enables "Blueprints" on Render.
+# To deploy: 
+# 1. Push this file to GitHub.
+# 2. Go to https://dashboard.render.com/blueprints/new
+# 3. Connect your repository.
+# 4. Click "Apply".

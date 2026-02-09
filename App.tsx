@@ -17,14 +17,30 @@ import SystemAccess from './components/SystemAccess';
 import DefectEntryModal from './components/DefectEntryModal';
 
 const App: React.FC = () => {
-  const [isSystemUnlocked, setIsSystemUnlocked] = useState<boolean>(false);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isSystemUnlocked, setIsSystemUnlocked] = useState<boolean>(() => {
+    return localStorage.getItem('isSystemUnlocked') === 'true';
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem('isAuthenticated') === 'true';
+  });
   const [currentView, setCurrentView] = useState<ViewType>('DASHBOARD');
   const [cells, setCells] = useState<ProductionCell[]>([]);
   const [selectedCell, setSelectedCell] = useState<ProductionCell | null>(null);
   const [isDefectModalOpen, setIsDefectModalOpen] = useState(false);
   const [selectedCellForDefect, setSelectedCellForDefect] = useState<ProductionCell | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Persistence
+  useEffect(() => {
+    localStorage.setItem('isSystemUnlocked', String(isSystemUnlocked));
+  }, [isSystemUnlocked]);
+
+  useEffect(() => {
+    localStorage.setItem('isAuthenticated', String(isAuthenticated));
+  }, [isAuthenticated]);
+
+  // Base URL for API (Environment Variable or Proxy)
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
   // Simulate initial load after login
   useEffect(() => {
@@ -41,7 +57,7 @@ const App: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/cells');
+        const response = await fetch(`${API_BASE_URL}/api/cells`);
         if (response.ok) {
           const data = await response.json();
           setCells(data);
@@ -70,6 +86,11 @@ const App: React.FC = () => {
   const handleLogout = () => {
     setIsAuthenticated(false);
     setCurrentView('DASHBOARD');
+    // Optional: clear persistence on logout if desired, but user asked to persist. 
+    // Usually logout implies clearing session. 
+    // Requirement: "persitir a sessão para não ficar pedindo toda hora".
+    // Explicit logout should probably clear it.
+    localStorage.removeItem('isAuthenticated');
   };
 
   const renderContent = () => {
@@ -100,7 +121,7 @@ const App: React.FC = () => {
           onIncrement={async (cellId, amount = 1) => {
             // Call API
             try {
-              await fetch(`/api/cells/${cellId}/increment`, {
+              await fetch(`${API_BASE_URL}/api/cells/${cellId}/increment`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount })
@@ -119,7 +140,7 @@ const App: React.FC = () => {
           }}
           onToggleStatus={async (cellId) => {
             try {
-              await fetch(`/api/cells/${cellId}/toggle`, {
+              await fetch(`${API_BASE_URL}/api/cells/${cellId}/toggle`, {
                 method: 'POST'
               });
             } catch (e) {

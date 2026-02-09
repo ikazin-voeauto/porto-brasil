@@ -1,130 +1,66 @@
-# Deploy gratuito com CI/CD (push na main)
+# Deploy Automático com Render Blueprint (Recomendado)
 
-Este guia descreve um fluxo gratuito (ou com free tier) para publicar **frontend + backend** automaticamente ao fazer push na branch `main` usando **CI/CD**.
+Este guia explica como fazer o deploy **automático e gratuito** da aplicação completa (Frontend + Backend + Banco de Dados) usando Render Blueprints.
 
-> **Resumo rápido:**
-> - **Backend**: Render (Free Tier) com deploy automático via GitHub.
-> - **Frontend**: Vercel (Free Tier) com deploy automático via GitHub.
-> - **Banco de dados**: usar PostgreSQL gratuito (Render, Neon, Supabase) se necessário.
+Esta abordagem substitui a necessidade de configurar serviços manualmente um por um.
 
 ---
 
-## 1. Pré-requisitos
-- Repositório no GitHub.
-- Aplicação funcionando localmente.
-- Variáveis de ambiente definidas (ver seção 5).
+## 1. O que será criado?
+Ao seguir este guia, o Render criará automaticamente:
+1.  **Frontend (Site Estático)**: A interface do usuário.
+2.  **Backend (Node.js)**: A API e servidor MQTT.
+3.  **Banco de Dados (PostgreSQL)**: Para armazenar dados de produção.
+
+Tudo isso interligado automaticamente através do arquivo `render.yaml` já incluído no projeto.
 
 ---
 
-## 2. Estrutura sugerida
-Este repositório possui:
-- **Frontend**: Vite/React na raiz.
-- **Backend**: Node.js em `backend/`.
+## 2. Passo a Passo
+
+### 2.1. Conectar ao Render
+1.  Acesse [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints).
+2.  Clique em **New Blueprint Instance**.
+3.  Conecte sua conta do GitHub.
+4.  Selecione este repositório (`porto-brasil`).
+
+### 2.2. Configurar o Deploy
+O Render lerá o arquivo `render.yaml` e mostrará os serviços que serão criados.
+
+1.  Dê um nome para o serviço (ex: `porto-brasil-prod`).
+2.  Clique em **Apply**.
+
+O Render iniciará o deploy de todos os componentes:
+- O banco de dados será provisionado.
+- O backend será construído e conectado ao banco.
+- O frontend será construído e configurado para apontar para o backend.
 
 ---
 
-## 3. Backend (Render)
-
-### 3.1. Criar serviço
-1. Crie uma conta em https://render.com
-2. Clique em **New** → **Web Service**.
-3. Conecte o repositório GitHub.
-4. Configure:
-   - **Root Directory**: `backend`
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm run start` (ou `node src/index.js`, ajuste conforme o backend)
-   - **Runtime**: Node.js
-
-### 3.2. Deploy automático
-- Ative **Auto-Deploy** para o branch `main`.
-- Render já faz deploy automático a cada push.
-
-### 3.3. Variáveis de ambiente
-No Render → **Environment**:
-- `PORT=3000` (Render define automaticamente, mas pode manter se exigido)
-- `MQTT_BROKER_URL=...`
-- `PG_HOST=...`
-- `PG_PORT=...`
-- `PG_DATABASE=...`
-- `PG_USER=...`
-- `PG_PASSWORD=...`
-
-> O backend deve ler o `PORT` do ambiente, pois o Render injeta a porta padrão.
+## 3. URLs de Acesso
+Após o deploy (pode levar alguns minutos), você verá duas URLs principais no dashboard:
+- **Frontend**: `https://porto-brasil-frontend-xxxx.onrender.com` (Acesse aqui!)
+- **Backend**: `https://porto-brasil-backend-xxxx.onrender.com` (API)
 
 ---
 
-## 4. Frontend (Vercel)
-
-### 4.1. Criar projeto
-1. Crie uma conta em https://vercel.com
-2. Importe o repositório GitHub.
-3. Configure:
-   - **Framework**: Vite
-   - **Root Directory**: `/` (raiz)
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-
-### 4.2. Variável de ambiente (API)
-- Defina a URL do backend:
-  - `VITE_API_BASE_URL=https://<seu-backend-render>.onrender.com`
-
-### 4.3. Deploy automático
-- Vercel faz deploy automático a cada push na `main`.
+## 4. GitHub Pages (Opcional / Demo)
+O projeto também está configurado para deploy automático no **GitHub Pages** (veja a aba Actions no GitHub).
+- **URL**: `https://<seu-usuario>.github.io/porto-brasil/`
+- **Limitação**: O GitHub Pages hospeda apenas o frontend estático.
+- **Comportamento**: Como o backend não roda no GitHub, a aplicação entrará automaticamente em **Modo de Demonstração (Mock)**, exibindo dados simulados. Isso é perfeito para apresentar o visual do projeto sem custos de servidor.
 
 ---
 
-## 5. CI/CD com GitHub Actions (opcional)
-
-Se preferir ter um pipeline explícito, use o exemplo abaixo para disparar deployments manuais via API (Render/Vercel). Isso é opcional, pois ambos já fazem deploy automático via integração GitHub.
-
-```yaml
-name: Deploy
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Trigger Render Deploy
-        run: curl -X POST "$RENDER_DEPLOY_HOOK"
-      - name: Trigger Vercel Deploy
-        run: curl -X POST "https://api.vercel.com/v1/integrations/deploy/prj_$VERCEL_PROJECT_ID/$VERCEL_DEPLOY_HOOK"
-```
-
-> Use **secrets** (`RENDER_DEPLOY_HOOK`, `VERCEL_PROJECT_ID`, `VERCEL_DEPLOY_HOOK`) no GitHub.
+## 5. Variáveis de Ambiente
+As variáveis são gerenciadas automaticamente pelo `render.yaml`.
+- `VITE_API_BASE_URL`: Aponta automaticamente para o backend no Render.
+- `DATABASE_URL`: Injetada automaticamente no backend.
+- `MQTT_BROKER_URL`: Configurado para usar um broker público de testes (`mqtt://test.mosquitto.org`) para garantir funcionamento imediato. Para produção real, recomenda-se um broker privado.
 
 ---
 
-## 6. Banco de dados gratuito (opcional)
-Se precisar persistência:
-- **Render PostgreSQL** (Free Tier)
-- **Neon** (Postgres grátis)
-- **Supabase** (Postgres grátis)
-
-Configure o backend para apontar para o host/credenciais do serviço escolhido.
-
----
-
-## 7. Checklist final
-- [ ] Backend publicado e funcionando na URL pública.
-- [ ] Frontend apontando para o backend via `VITE_API_BASE_URL`.
-- [ ] Deploy automático ativado (push na `main`).
-- [ ] Variáveis de ambiente configuradas.
-
----
-
-## 8. Troubleshooting
-- **Erro de porta**: garanta que o backend lê `process.env.PORT`.
-- **CORS**: configure o backend para aceitar o domínio do frontend.
-- **Timeout**: verifique se o backend usa `npm start` e não `npm run dev`.
-
----
-
-## 9. Alternativas gratuitas
-- **Railway** (free tier, bom para Node + DB).
-- **Fly.io** (free tier, precisa mais configuração).
-- **Netlify** (frontend estático).
-
+## Troubleshooting
+- **Deploy falhou?** Verifique os logs no dashboard do Render.
+- **Login não funciona?** O banco de dados inicia vazio. O sistema permite login com qualquer usuário simulado no frontend ou você pode precisar criar usuários via API/Banco se a lógica mudar.
+- **Persistência**: O login agora é persistido no navegador. Se recarregar a página, você continuará logado.
