@@ -15,7 +15,8 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
         }
-      }
+      },
+      allowedHosts: ['localhost', '127.0.0.1', '0.0.0.0', 'localhost:3003', '127.0.0.1:3003', '0.0.0.0:3003', 'lashawn-unfound-daubingly.ngrok-free.dev', 'porto-brasil-frontend.onrender.com', 'ikazin-voeauto.github.io'],
     },
     plugins: [react()],
     define: {
