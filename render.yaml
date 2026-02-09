@@ -51,11 +51,10 @@ services:
         fromService:
           type: web
           name: porto-brasil-backend
-          property: url
+          property: host
 
 databases:
   # PostgreSQL Database
   - name: porto-brasil-db
     plan: free
     databaseName: porto_brasil
-    user: postgres

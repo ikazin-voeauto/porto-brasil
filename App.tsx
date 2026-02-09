@@ -40,7 +40,12 @@ const App: React.FC = () => {
   }, [isAuthenticated]);
 
   // Base URL for API (Environment Variable or Proxy)
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+  // Render provides the bare host (e.g. backend.onrender.com), so we need to prepend https://
+  let apiBase = import.meta.env.VITE_API_BASE_URL || '';
+  if (apiBase && !apiBase.startsWith('http')) {
+    apiBase = `https://${apiBase}`;
+  }
+  const API_BASE_URL = apiBase;
 
   // Simulate initial load after login
   useEffect(() => {
