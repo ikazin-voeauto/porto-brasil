@@ -83,8 +83,9 @@ async function logProduction(data) {
 async function logSnapshot(data) {
     try {
         // Validate required data structure
-        if (!data || !data.oee || !data.sensors) {
-            console.warn('Invalid data structure for logging snapshot');
+        // Validate required data structure
+        if (!data || !data.id || data.oee === undefined) {
+            console.warn('Invalid data structure for logging snapshot - missing id or oee');
             return;
         }
 
@@ -92,14 +93,19 @@ async function logSnapshot(data) {
             INSERT INTO oee_snapshots (cell_id, availability, performance, quality, global_oee, temperature, vibration, timestamp)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         `;
+
+        // Safely extract values support both nested (old) and flat (new/simulation) structures
+        const safeOee = (typeof data.oee === 'object' && data.oee !== null) ? data.oee : {};
+        const safeSensors = (typeof data.sensors === 'object' && data.sensors !== null) ? data.sensors : {};
+
         const values = [
             data.id,
-            data.oee.availability || data.availability,
-            data.oee.performance || data.performance,
-            data.oee.quality || data.quality,
-            data.oee.global || data.oee,
-            data.sensors.temperature || data.temperature,
-            data.sensors.vibration || data.vibration,
+            safeOee.availability !== undefined ? safeOee.availability : data.availability,
+            safeOee.performance !== undefined ? safeOee.performance : data.performance,
+            safeOee.quality !== undefined ? safeOee.quality : data.quality,
+            safeOee.global !== undefined ? safeOee.global : (typeof data.oee === 'number' ? data.oee : 0),
+            safeSensors.temperature !== undefined ? safeSensors.temperature : data.temperature,
+            safeSensors.vibration !== undefined ? safeSensors.vibration : data.vibration,
             data.timestamp || new Date().toISOString()
         ];
         await pool.query(query, values);
