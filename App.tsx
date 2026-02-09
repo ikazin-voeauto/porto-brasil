@@ -40,12 +40,18 @@ const App: React.FC = () => {
   }, [isAuthenticated]);
 
   // Base URL for API (Environment Variable or Proxy)
-  // Render provides the bare host (e.g. backend.onrender.com), so we need to prepend https://
+  // Render provides the bare host. If it's an internal service name (no dots), we append .onrender.com
   let apiBase = import.meta.env.VITE_API_BASE_URL || '';
-  if (apiBase && !apiBase.startsWith('http')) {
-    apiBase = `https://${apiBase}`;
+  if (apiBase) {
+    if (!apiBase.includes('.')) {
+      apiBase = `${apiBase}.onrender.com`;
+    }
+    if (!apiBase.startsWith('http')) {
+      apiBase = `https://${apiBase}`;
+    }
   }
   const API_BASE_URL = apiBase;
+  console.log('API Base URL configured:', API_BASE_URL);
 
   // Simulate initial load after login
   useEffect(() => {
