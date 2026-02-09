@@ -18,7 +18,7 @@ const App: React.FC = () => {
   const [isSystemUnlocked, setIsSystemUnlocked] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<ViewType>('DASHBOARD');
-  const [cells, setCells] = useState<ProductionCell[]>(MOCK_CELLS);
+  const [cells, setCells] = useState<ProductionCell[]>([]);
   const [selectedCell, setSelectedCell] = useState<ProductionCell | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -91,23 +91,31 @@ const App: React.FC = () => {
             const cell = cells.find(c => c.id === cellId);
             if (cell) setSelectedCell(cell);
           }}
-          onIncrement={(cellId, amount = 1) => {
-            setCells(prev => prev.map(c =>
-              c.id === cellId
-                ? { ...c, unitsProduced: Math.min(c.targetUnits, c.unitsProduced + amount) }
-                : c
-            ));
+          onIncrement={async (cellId, amount = 1) => {
+            // Call API
+            try {
+              await fetch(`http://localhost:3000/api/cells/${cellId}/increment`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount })
+              });
+              // Optimistic update or wait for poll
+            } catch (e) {
+              console.error("Failed to increment", e);
+            }
           }}
           onReportDefect={(cellId) => {
             console.log('Reportar defeito:', cellId);
             // Aqui pode abrir modal de reportar defeito
           }}
-          onToggleStatus={(cellId) => {
-            setCells(prev => prev.map(c =>
-              c.id === cellId
-                ? { ...c, status: c.status === 'OPERATIONAL' ? 'STOPPED' : 'OPERATIONAL' }
-                : c
-            ));
+          onToggleStatus={async (cellId) => {
+            try {
+              await fetch(`http://localhost:3000/api/cells/${cellId}/toggle`, {
+                method: 'POST'
+              });
+            } catch (e) {
+              console.error("Failed to toggle status", e);
+            }
           }}
           onBack={() => setCurrentView('DASHBOARD')}
         />;

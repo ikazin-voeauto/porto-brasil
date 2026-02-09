@@ -10,7 +10,19 @@ Todos os endpoints suportam **Basic Auth**.
 *   **User**: `admin`
 *   **Password**: `totvs`
 
-(Na simulação atual, a autenticação é opcional por padrão para facilitar o desenvolvimento, mas o middleware está implementado no código).
+**Como gerar o Token (Header Authorization):**
+Para autenticar, você deve enviar o header `Authorization: Basic <token>`.
+O token é a string `user:password` codificada em Base64.
+
+Exemplo em Linux/Mac:
+```bash
+echo -n "admin:totvs" | base64
+# Saída: YWRtaW46dG90dnM=
+```
+
+Exemplo de Header:
+`Authorization: Basic YWRtaW46dG90dnM=`
+
 
 ## Base URL
 Local: `http://localhost:3000/totvs-api`
@@ -22,8 +34,9 @@ Local: `http://localhost:3000/totvs-api`
 ### 1. Listar Ordens de Produção (SC2)
 
 Consulta a tabela de Ordens de Produção (SC2) filtrando por status.
+Simula o endpoint padrão ERP TOTVS.
 
-*   **Endpoint**: `/production-orders`
+*   **Endpoint**: `/v1/erpprot/production-orders`
 *   **Método**: `GET`
 *   **Parâmetros**:
     *   `page`: (int) Página atual (default: 1)
@@ -47,9 +60,9 @@ Consulta a tabela de Ordens de Produção (SC2) filtrando por status.
 
 ### 2. Apontamento de Produção (Simulação SFCA314)
 
-Endpoint que simula a execução da rotina `SFCA314` (Apontamento de Produção) via integração automática.
+Endpoint que simula a execução da rotina `SFCA314` (Apontamento de Produção) via ExecAuto/REST.
 
-*   **Endpoint**: `/sfca314`
+*   **Endpoint**: `/v1/erpprot/production-appointments`
 *   **Método**: `POST`
 *   **Body (JSON)**:
     ```json

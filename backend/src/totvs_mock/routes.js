@@ -43,11 +43,10 @@ const productionOrders = [
 ];
 
 /**
- * Resource: /api/v1/production-orders
- * Description: Retrieves list of Production Orders
- * Standard TOTVS Paging: page=1, pageSize=10
+ * Resource: /api/v1/erpprot/production-orders
+ * Simulator for table SC2 (Ordens de Produção)
  */
-router.get('/production-orders', (req, res) => {
+router.get('/v1/erpprot/production-orders', (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 10;
 
@@ -69,14 +68,13 @@ router.get('/production-orders', (req, res) => {
 });
 
 /**
- * Resource: /api/v1/sfca314
- * Description: Production Appointment (Apontamento de Produção)
- * Simulates the SFCA314 routine via REST
+ * Resource: /api/v1/erpprot/production-appointments
+ * Simulator for Routine SFCA314 (Apontamento de Produção)
  */
-router.post('/sfca314', (req, res) => {
+router.post('/v1/erpprot/production-appointments', (req, res) => {
     const { orderId, quantity, type, workCenter } = req.body;
 
-    // Validation
+    // Validation like SFCA314 would do
     if (!orderId || !quantity || !type) {
         return res.status(400).json({
             code: "Bad Request",
@@ -104,16 +102,17 @@ router.post('/sfca314', (req, res) => {
 
     // Simulate Processing time
     setTimeout(() => {
-        // Success Logic
-        console.log(`[TOTVS Mock] SFCA314: OP=${orderId} Qty=${quantity} WC=${workCenter} Type=${type}`);
+        // Log the appointment
+        console.log(`[TOTVS Mock] SFCA314 ExecAuto: OP=${orderId} Qty=${quantity} WC=${workCenter} Type=${type}`);
 
         res.status(201).json({
             transactionId: Math.floor(Math.random() * 1000000000).toString(),
             status: "Success",
             message: "Production reported successfully.",
-            generatedId: "H6" + Math.floor(Math.random() * 10000) // Simulating standard ID
+            generatedId: "H6" + Math.floor(Math.random() * 10000) // Simulating standard ID (H6 table for appointments)
         });
     }, 300);
 });
 
 module.exports = router;
+

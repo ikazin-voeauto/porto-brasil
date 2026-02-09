@@ -66,12 +66,36 @@ class SimulationManager {
         }, 5000); // Log every 5 seconds to reduce noise
     }
 
+    incrementProduction(cellId, amount) {
+        const cell = this.cells.find(c => c.id === cellId);
+        if (cell) {
+            cell.produced += amount;
+            // Assume good by default for manual input, or calculate
+            cell.good += amount;
+            cell.calculateOEE();
+            return true;
+        }
+        return false;
+    }
+
+    toggleStatus(cellId) {
+        const cell = this.cells.find(c => c.id === cellId);
+        if (cell) {
+            cell.status = cell.status === 'OPERATIONAL' || cell.status === 'RUNNING' ? 'STOPPED' : 'RUNNING';
+            // Force immediate update
+            cell.calculateOEE();
+            cell.publishUpdates();
+            return cell.status;
+        }
+        return null;
+    }
+
     getCellsState() {
         return this.cells.map(cell => {
-            let status = 'STOPPED';
-            if (cell.status === 'RUNNING') status = 'OPERATIONAL';
-            else if (cell.status === 'MAINTENANCE') status = 'MAINTENANCE';
-            else if (cell.status === 'STOPPED') status = 'STOPPED';
+            let status = cell.status;
+            if (status === 'RUNNING') status = 'OPERATIONAL';
+            else if (status === 'MAINTENANCE') status = 'MAINTENANCE';
+            else if (status === 'STOPPED') status = 'STOPPED';
 
             // Logic for 'WARNING': if Running but OEE < 60
             if (status === 'OPERATIONAL' && cell.oee < 60) status = 'WARNING';
@@ -101,5 +125,6 @@ class SimulationManager {
         });
     }
 }
+
 
 module.exports = new SimulationManager();
