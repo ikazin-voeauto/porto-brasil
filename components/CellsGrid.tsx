@@ -44,7 +44,7 @@ const CellsGrid: React.FC<CellsGridProps> = ({ cells, onCellClick }) => {
       </div>
 
       {/* Grid - Standard Sized Cards */}
-      <div className="grid grid-cols-1 xs:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-3 sm:gap-4 overflow-y-auto pb-24">
+      <div className="grid grid-cols-1 xs:grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-3 sm:gap-4 overflow-y-auto pb-24">
         {filteredCells.map((cell) => {
           const statusColor =
             cell.status === 'OPERATIONAL' ? 'border-l-ind-ok' :
@@ -61,9 +61,9 @@ const CellsGrid: React.FC<CellsGridProps> = ({ cells, onCellClick }) => {
             >
               <div className="p-4 sm:p-5 flex-1 flex flex-col relative z-10">
                 <div className="flex justify-between items-start mb-4">
-                  <div className="min-w-0">
+                  <div className="min-w-0 pr-2">
                     <span className="text-[10px] xs:text-xs font-bold text-pb-gray tracking-widest uppercase mb-0.5 block">Célula</span>
-                    <span className="text-xl sm:text-2xl font-bold text-pb-white tracking-tight leading-none truncate block">{cell.name}</span>
+                    <span className="text-lg sm:text-xl font-bold text-pb-white tracking-tight leading-tight block">{cell.name}</span>
                   </div>
                   <div className="flex-shrink-0 scale-100 origin-top-right"><StatusBadge status={cell.status as Status} size="sm" /></div>
                 </div>
