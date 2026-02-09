@@ -11,8 +11,10 @@ import MobileCounter from './components/MobileCounter';
 import ProductionHistory from './components/ProductionHistory';
 import AlertsHistory from './components/AlertsHistory';
 import Footer from './components/Footer';
+import MobileNav from './components/MobileNav';
 import Login from './components/Login';
 import SystemAccess from './components/SystemAccess';
+import DefectEntryModal from './components/DefectEntryModal';
 
 const App: React.FC = () => {
   const [isSystemUnlocked, setIsSystemUnlocked] = useState<boolean>(false);
@@ -20,6 +22,8 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewType>('DASHBOARD');
   const [cells, setCells] = useState<ProductionCell[]>([]);
   const [selectedCell, setSelectedCell] = useState<ProductionCell | null>(null);
+  const [isDefectModalOpen, setIsDefectModalOpen] = useState(false);
+  const [selectedCellForDefect, setSelectedCellForDefect] = useState<ProductionCell | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Simulate initial load after login
@@ -59,6 +63,7 @@ const App: React.FC = () => {
 
   const handleCellClick = (cell: ProductionCell) => {
     setSelectedCell(cell);
+    setCurrentView('OPERATOR');
   };
 
   const handleLogout = () => {
@@ -69,10 +74,10 @@ const App: React.FC = () => {
   const renderContent = () => {
     if (isLoading && isAuthenticated) {
       return (
-        <div className="flex-1 flex items-center justify-center bg-pb-offWhite">
+        <div className="flex-1 flex items-center justify-center bg-pb-black">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-ind-ok border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-pb-black font-bold tracking-widest uppercase text-sm">Sincronizando Dados Industriais...</p>
+            <div className="w-12 h-12 xs:w-16 xs:h-16 border-4 border-ind-ok border-t-transparent rounded-full animate-spin mx-auto mb-3 xs:mb-4"></div>
+            <p className="text-pb-white font-bold tracking-widest uppercase text-xs xs:text-sm max-w-[200px] xs:max-w-none mx-auto">Sincronizando...</p>
           </div>
         </div>
       );
@@ -105,8 +110,11 @@ const App: React.FC = () => {
             }
           }}
           onReportDefect={(cellId) => {
-            console.log('Reportar defeito:', cellId);
-            // Aqui pode abrir modal de reportar defeito
+            const cell = cells.find(c => c.id === cellId);
+            if (cell) {
+              setSelectedCellForDefect(cell);
+              setIsDefectModalOpen(true);
+            }
           }}
           onToggleStatus={async (cellId) => {
             try {
@@ -137,29 +145,68 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen bg-pb-offWhite overflow-hidden font-sans text-pb-black">
-      <Sidebar
-        currentView={currentView}
-        setView={setCurrentView}
-        onLogout={handleLogout}
-      />
+    <div className="flex h-screen bg-pb-black overflow-hidden font-sans text-pb-white">
+      {/* Desktop Sidebar - Hidden on Mobile */}
+      <div className="hidden md:flex h-full shrink-0">
+        <Sidebar
+          currentView={currentView}
+          setView={setCurrentView}
+          onLogout={handleLogout}
+        />
+      </div>
 
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden relative">
+        {/* Header - Adjusted for Mobile */}
         {currentView !== 'OPERATOR' && <Header currentView={currentView} />}
 
-        <main className={`flex-1 overflow-y-auto relative ${currentView === 'OPERATOR' ? '' : 'pb-12'}`}>
+        <main className={`flex-1 overflow-y-auto relative ${currentView === 'OPERATOR' ? '' : 'pb-24 md:pb-12'}`}>
           {renderContent()}
         </main>
 
-        {currentView !== 'OPERATOR' && <Footer />}
+        {/* Footer - Hidden on Mobile to save space/avoid clutter */}
+        {currentView !== 'OPERATOR' && (
+          <div className="hidden md:block">
+            <Footer />
+          </div>
+        )}
+
+        {/* Mobile Navigation - Visible only on Mobile */}
+        {currentView !== 'OPERATOR' && (
+          <MobileNav currentView={currentView} setView={setCurrentView} />
+        )}
       </div>
 
-      {selectedCell && (
+      {selectedCell && currentView !== 'OPERATOR' && (
         <CellDetail
           cell={selectedCell}
           onClose={() => setSelectedCell(null)}
         />
       )}
+
+      <DefectEntryModal
+        isOpen={isDefectModalOpen}
+        onClose={() => setIsDefectModalOpen(false)}
+        onConfirm={(type, value) => {
+          if (selectedCellForDefect) {
+            setCells(prev => prev.map(c => {
+              if (c.id !== selectedCellForDefect.id) return c;
+
+              if (type === 'PRODUCT') {
+                return { ...c, badPieces: c.badPieces + (value as number) };
+              } else {
+                return {
+                  ...c,
+                  status: 'WARNING', // Or STOPPED, depending on business logic
+                  lastFault: value as string
+                };
+              }
+            }));
+          }
+          setIsDefectModalOpen(false);
+          setSelectedCellForDefect(null);
+        }}
+        cellName={selectedCellForDefect?.name || ''}
+      />
     </div>
   );
 };

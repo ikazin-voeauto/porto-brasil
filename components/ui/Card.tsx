@@ -1,14 +1,17 @@
 import React from 'react';
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
     children: React.ReactNode;
     className?: string;
     noPadding?: boolean;
 }
 
-const Card: React.FC<CardProps> = ({ children, className = '', noPadding = false }) => {
+const Card: React.FC<CardProps> = ({ children, className = '', noPadding = false, ...props }) => {
     return (
-        <div className={`bg-pb-white border border-pb-lightGray rounded-lg shadow-sm ${noPadding ? '' : 'p-6'} ${className}`}>
+        <div
+            className={`bg-pb-darkGray border border-white/5 rounded-lg shadow-lg ${noPadding ? '' : 'p-6'} ${className}`}
+            {...props}
+        >
             {children}
         </div>
     );

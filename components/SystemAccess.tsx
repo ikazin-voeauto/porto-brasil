@@ -98,7 +98,7 @@ const SystemAccess: React.FC<SystemAccessProps> = ({ onUnlock }) => {
 
                     <div className="mt-8 text-center">
                         <p className="text-[#333] text-[10px]">TARGET SOFTWARE : PORTO BRASIL V4.0</p>
-                        <p className="text-[#333] text-[10px] mt-1">SECURED BY IKAZIN TECHNOLOGY</p>
+                        <p className="text-[#333] text-[10px] mt-1">Desenvolvido por Ikazin® · Engenharia e Automação</p>
                     </div>
                 </div>
             </div>
