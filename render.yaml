@@ -35,36 +35,27 @@ services:
           name: porto-brasil-db
           property: password
 
+  # Frontend Service (Wraps static build in Node.js server to avoid type errors)
+  # Using type: web is more reliable across spec versions than 'static' or 'staticSites'
+  - type: web
+    name: porto-brasil-frontend
+    env: node
+    rootDir: .
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: porto-brasil-backend
+          property: url
+
 databases:
   # PostgreSQL Database
   - name: porto-brasil-db
     plan: free
     databaseName: porto_brasil
     user: postgres
-
-# This file enables "Blueprints" on Render.
-# To deploy: 
-# 1. Push this file to GitHub.
-# 2. Go to https://dashboard.render.com/blueprints/new
-# 3. Connect your repository.
-# 4. Click "Apply".
-
-# Static Site (Frontend) must be defined separately in some specs, 
-# or use type: web with env: static for some contexts.
-# However, Render has specific 'staticSites' section.
-# Fix for "unknown type static". The type should be consistent with the section.
-# Actually, Render has deprecated 'staticSites' in some contexts and moved to 'services' with type 'static_site', 
-# wait, checking spec... actually it is a top-level key 'staticSites'.
-
-staticSites:
-  - name: porto-brasil-frontend
-    rootDir: .
-    buildCommand: npm install && npm run build
-    publishDir: dist
-    plan: free
-    envVars:
-      - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: porto-brasil-backend
-          property: url
